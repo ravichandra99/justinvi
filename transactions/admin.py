@@ -6,10 +6,12 @@ from .models import (
     PurchaseBillDetails, 
     SaleBill, 
     SaleItem,
-    SaleBillDetails
+    SaleBillDetails,
+    Dealer
 )
 
 admin.site.register(Supplier)
+admin.site.register(Dealer)
 admin.site.register(PurchaseBill)
 admin.site.register(PurchaseItem)
 admin.site.register(PurchaseBillDetails)

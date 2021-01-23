@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 from inventory.models import Stock
-from transactions.models import SaleBill, PurchaseBill
+from transactions.models import SaleBill, PurchaseBill, SaleBillDetails, PurchaseBillDetails
+from django.db.models import Sum
 
 
 class HomeView(View):
@@ -15,11 +16,16 @@ class HomeView(View):
             data.append(item.quantity)
         sales = SaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
+        s = SaleBillDetails.objects.aggregate(Sum('total'))
+        p = PurchaseBillDetails.objects.aggregate(Sum('total'))
+        print(p,s)
+        # pol = s - p
         context = {
             'labels'    : labels,
             'data'      : data,
             'sales'     : sales,
-            'purchases' : purchases
+            'purchases' : purchases,
+            # 'pol'       : pol
         }
         return render(request, self.template_name, context)
 

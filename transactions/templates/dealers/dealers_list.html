@@ -3,15 +3,15 @@
 {% load widget_tweaks %}
 
 
-{% block title %} Suppliers List {% endblock title %}
+{% block title %} Dealers List {% endblock title %}
 
 
 {% block content %}
     
     <div class="row" style="color: #ea2088; font-style: bold; font-size: 3rem;">
-        <div class="col-md-8">Suppliers List</div>
+        <div class="col-md-8">Dealers List</div>
         <div class="col-md-4">               
-            <div style="float:right;"> <a class="btn ghost-blue" href="{% url 'new-supplier' %}">Add New Supplier</a> </div>
+            <div style="float:right;"> <a class="btn ghost-blue" href="{% url 'new-dealer' %}">Add New Dealer</a> </div>
         </div>
     </div>
 
@@ -34,14 +34,14 @@
             {% for supplier in object_list %}
             <tr>
                 <td>
-                    <h3> <a href="{% url 'supplier' supplier.name %}">{{ supplier.name }}</a> </h3>
+                    <h3> <a href="{% url 'dealer' supplier.name %}">{{ supplier.name }}</a> </h3>
                 </td>
                 <td class="align-middle"> {{ supplier.phone }} </td>
                 <td class="align-middle"> {{ supplier.gstin }} </td>
                 <td class="align-middle">
                     <div class="align-middle">
-                        <a href="{% url 'edit-supplier' supplier.pk %}" class="btn ghost-button">Edit Details</a>
-                        <a href="{% url 'delete-supplier' supplier.pk %}" class="btn ghost-red">Delete Supplier</a>
+                        <a href="{% url 'edit-dealer' supplier.pk %}" class="btn ghost-button">Edit Details</a>
+                        <a href="{% url 'delete-dealer' supplier.pk %}" class="btn ghost-red">Delete Dealer</a>
                     </div>
                 </td>              
             </tr>

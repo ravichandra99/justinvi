@@ -2,7 +2,7 @@
 
 
 {% block title %}
-  {{ supplier.name }}'s profile
+  {{ dealer.name }}'s profile
 {% endblock %}
 
 
@@ -11,19 +11,19 @@
     <div class="content-section">
         <div class="media">
             <div class="media-body">
-                <h2 style="color:#ea2088;" class="account-heading">&nbsp;{{ supplier.name }}</h2>
-                <a href="{% url 'edit-supplier' supplier.pk %}" class="btn ghost-button" style="float: right;">Edit Details</a>
+                <h2 style="color:#ea2088;" class="account-heading">&nbsp;{{ dealer.name }}</h2>
+                <a href="{% url 'edit-dealer' dealer.pk %}" class="btn ghost-button" style="float: right;">Edit Details</a>
                 <div class="row">
                     <div class="col-md-6">
                         <p class="fal">
-                            Phone No &nbsp; : {{ supplier.phone }} <br>
-                            Email Id &nbsp;&nbsp;&nbsp;&nbsp; : {{ supplier.email }} <br>
-                            GSTIN No &nbsp; : {{ supplier.gstin }} <br>
+                            Phone No &nbsp; : {{ dealer.phone }} <br>
+                            Email Id &nbsp;&nbsp;&nbsp;&nbsp; : {{ dealer.email }} <br>
+                            GSTIN No &nbsp; : {{ dealer.gstin }} <br>
                         </p>
                     </div>
                     <div class="col-md-6">
                         <p class="fal">
-                            Address: <br> {{ supplier.address|linebreaks }}
+                            Address: <br> {{ dealer.address|linebreaks }}
                         </p>
                     </div>
                 </div>
@@ -38,10 +38,10 @@
         <thead class="thead-inverse align-middle">
             <tr>
                 <th width="10%">Bill No</th>
-                <th width="15%">Stocks Purchased</th>
-                <th width="15%">Quantity Purchased</th>
-                <th width="15%">Total Purchased Price</th>
-                <th width="15%">Purchased Date</th>
+                <th width="15%">Stocks Sold</th>
+                <th width="15%">Quantity Sold</th>
+                <th width="15%">Total Sold Price</th>
+                <th width="15%">Sold Date</th>
                 <th width="30%">Options</th>
             </tr>
         </thead>

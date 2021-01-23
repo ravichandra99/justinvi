@@ -6,7 +6,12 @@ class StockForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
+        self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['cost_price'].widget.attrs.update({'class': 'textinput form-control','min': '0','step':'0.01'})
+        self.fields['selling_price'].widget.attrs.update({'class': 'textinput form-control','min': '0','step':'0.01'})
+        self.fields['sgst'].widget.attrs.update({'class': 'textinput form-control','min': '0','step':'0.01'})
+        self.fields['cgst'].widget.attrs.update({'class': 'textinput form-control','min': '0','step':'0.01'})
 
     class Meta:
         model = Stock
-        fields = ['name', 'quantity']
+        fields = ['name', 'quantity','cost_price','selling_price','sgst','cgst','barcode']

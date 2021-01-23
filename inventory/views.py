@@ -10,6 +10,7 @@ from .models import Stock
 from .forms import StockForm
 from django_filters.views import FilterView
 from .filters import StockFilter
+from django.http import JsonResponse
 
 
 class StockListView(FilterView):
@@ -62,3 +63,17 @@ class StockDeleteView(View):                                                    
         stock.save()                                               
         messages.success(request, self.success_message)
         return redirect('inventory')
+
+def get_costprice(request):
+    barcode = request.GET.get('barcode')
+    stock = get_object_or_404(Stock, barcode = barcode)
+    cost_price = stock.cost_price
+    data = {'cost_price':cost_price}
+    return JsonResponse(data)
+
+def get_sellingprice(request):
+    barcode = request.GET.get('barcode')
+    stock = get_object_or_404(Stock, barcode = barcode)
+    selling_price = stock.selling_price
+    data = {'selling_price':selling_price}
+    return JsonResponse(data)

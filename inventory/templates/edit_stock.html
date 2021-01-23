@@ -25,6 +25,31 @@
             <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
             {{ form.quantity }}
         </div>
+        <div class="form-group ">
+            {{ form.cost_price.errors }}
+            <label for="{{ form.quantity.id_for_label }}">cost price:</label>
+            {{ form.cost_price }}
+        </div>
+        <div class="form-group ">
+            {{ form.selling_price.errors }}
+            <label for="{{ form.quantity.id_for_label }}">selling price:</label>
+            {{ form.selling_price }}
+        </div>
+        <div class="form-group ">
+            {{ form.sgst.errors }}
+            <label for="{{ form.quantity.id_for_label }}">SGST:</label>
+            {{ form.sgst }}
+        </div>
+        <div class="form-group ">
+            {{ form.cgst.errors }}
+            <label for="{{ form.quantity.id_for_label }}">CGST:</label>
+            {{ form.cgst }}
+        </div>
+        <div class="form-group ">
+            {{ form.barcode.errors }}
+            <label for="{{ form.quantity.id_for_label }}">Barcode:</label>
+            {{ form.barcode }}
+        </div>
 
         <br>
 

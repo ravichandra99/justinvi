@@ -7,7 +7,8 @@ from .models import (
     PurchaseBillDetails, 
     SaleBill, 
     SaleItem,
-    SaleBillDetails
+    SaleBillDetails,
+    Dealer
 )
 from inventory.models import Stock
 
@@ -26,13 +27,14 @@ class SelectSupplierForm(forms.ModelForm):
 class PurchaseItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
-        self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
+        # self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
+        # self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
+        self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control setprice barcode'})
     class Meta:
         model = PurchaseItem
-        fields = ['stock', 'quantity', 'perprice']
+        fields = ['quantity', 'perprice','barcode']
 
 # formset used to render multiple 'PurchaseItemForm'
 PurchaseItemFormset = formset_factory(PurchaseItemForm, extra=1)
@@ -64,17 +66,16 @@ class SupplierForm(forms.ModelForm):
             )
         }
 
-
-# form used to get customer details
-class SaleForm(forms.ModelForm):
+# form used for supplier
+class DealerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only', 'required': 'true'})
+        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+        self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern' : '[A-Z0-9]{15}', 'title' : 'GSTIN Format Required'})
     class Meta:
-        model = SaleBill
+        model = Dealer
         fields = ['name', 'phone', 'address', 'email', 'gstin']
         widgets = {
             'address' : forms.Textarea(
@@ -85,17 +86,31 @@ class SaleForm(forms.ModelForm):
             )
         }
 
+
+# form used to get customer details
+class SaleForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dealer'].queryset = Supplier.objects.filter(is_deleted=False)
+        self.fields['DealerForm'].widget.attrs.update({'class': 'textinput form-control'})
+
+        model = Dealer
+        fields = ['dealer']
+        
+
 # form used to render a single stock item form
 class SaleItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
-        self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
+        # self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
+        # self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
+        self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control barcode'})
+
     class Meta:
         model = SaleItem
-        fields = ['stock', 'quantity', 'perprice']
+        fields = ['quantity', 'perprice', 'barcode']
 
 # formset used to render multiple 'SaleItemForm'
 SaleItemFormset = formset_factory(SaleItemForm, extra=1)
@@ -105,3 +120,13 @@ class SaleDetailsForm(forms.ModelForm):
     class Meta:
         model = SaleBillDetails
         fields = ['eway','veh', 'destination', 'po', 'cgst', 'sgst', 'igst', 'cess', 'tcs', 'total']
+
+class SelectDealerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dealer'].queryset = Dealer.objects.filter(is_deleted=False)
+        self.fields['dealer'].widget.attrs.update({'class': 'textinput form-control'})
+
+    class Meta:
+        model = SaleBill
+        fields = ['dealer']

@@ -9,87 +9,72 @@
 
     <div style="color:#ea2088; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">New Sale</div>
     
-    <br>
+        <br>
 
-    <form method="post" class="panel panel-default">
-        
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        <div class="panel-heading panel-heading-text">Customer Details</div>
-        <div class="panel-body">
-            
-            {{ form.name.errors }}
-            {{ form.phone.errors }}
-            {{ form.email.errors }}
-            {{ form.address.errors }}
-            {{ form.gstin.errors }}
-
-            <div class="form-group">
-                <label for="{{ form.name.id_for_label }}" class="panel-body-text">Customer Name:</label>
-                {{ form.name }}                
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6"> 
-                    <label for="{{ form.phone.id_for_label }}" class="panel-body-text">Phone No:</label>
-                    {{ form.phone }}
+        <div class="panel panel-default">
+            <div class="panel-heading panel-heading-text">Dealer Details</div>
+            <div class="panel-body">
+                    
+                <div class="form-group">
+                    <label for="id_name" class="panel-body-text">Dealer Name:</label>
+                    <input type="text" class="form-control textinput" id="id_name" value="{{ supplier.name }}" disabled>
                 </div>
-                <div class="form-group col-md-6">              
-                    <label for="{{ form.email.id_for_label }}" class="panel-body-text">Email:</label>
-                    {{ form.email }}
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="id_phone" class="panel-body-text">Phone No:</label>
+                        <input type="text" class="form-control textinput" id="id_phone" value="{{ supplier.phone }}" disabled>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="id_gstin" class="panel-body-text">GSTIN No:</label>
+                        <input type="gstin" class="form-control textinput" id="id_gstin" value="{{ supplier.gstin }}" disabled>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.address.id_for_label }}" class="panel-body-text">Address:</label>
-                {{ form.address }}
             </div>
-            <div class="form-group">
-                <label for="{{ form.gstin.id_for_label }}" class="panel-body-text">GSTIN No:</label>
-                {{ form.gstin }}
-            </div>
-
         </div>
 
         <br>
 
-        <div class="panel panel-default">
+        <form method="post" class="panel panel-default">
             
+            {% csrf_token %}
             {{ formset.management_form }}
 
             <div class="panel-heading panel-heading-text">Product Details</div>
             
                 <div id="stockitem"> 
                     <div class="panel-body">
-                    {% for iform in formset %}
+                    {% for form in formset %}
                         <div class="row form-row">
-                            <div class="form-group col-md-6">
-                                {{ iform.stock.errors }}
-                                <label class="panel-body-text">Stock:</label>
-                                {{ iform.stock }}
+                            <div class="form-group col-md-1">
+                                <label class="panel-body-text" style="color: #000">.</label>
+                                <button class="form-control btn btn-danger remove-form-row"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
+                            
                             <div class="form-group col-md-2">
                                 <label class="panel-body-text">Price per item:</label>
-                                {{ iform.perprice }}
+                                {{ form.perprice }}
                             </div>
                             <div class="form-group col-md-2">
-                                {{ iform.quantity.errors }}
+                                {{ form.quantity.errors }}
                                 <label class="panel-body-text">Quantity:</label>
-                                {{ iform.quantity }}
+                                {{ form.quantity }}
                             </div>
                             <div class="form-group col-md-1">
                                 <label class="panel-body-text">Price:</label>
                                 <input type="text" class="textinput form-control totalprice" value="1" disabled required>
                             </div>
-                            <div class="form-group col-md-1">
-                                <label class="panel-body-text" style="color: #000">.</label>
-                                <button class="form-control btn btn-danger remove-form-row">-</button>
+                            <div class="form-group col-md-6">
+                                {{ form.barcode.errors }}
+                                <label class="panel-body-text">Barcode:</label>
+                                {{ form.barcode }}
                             </div>
+                            
                         </div>
                     {% endfor %}
                         <div style="text-align: right;">                    
-                            <a href="#" class="add-form-row">+ Add More</a>
+                            <button class="btn ghost-button add-form-row">+ Add More</button>
                         </div>
                     </div>
                 </div>
@@ -99,12 +84,13 @@
 
             <div class="align-middle">
                 <button type="submit" class="btn ghost-green">Add to Sales</button>
+                <a href="{% url 'dealer-select' %}" class="btn ghost-button">Go Back</a>
                 <a href="{% url 'sales-list' %}" class="btn ghost-button">Cancel</a>
             </div>
             
-        </div>
+        </form>
 
-    </form>
+    </div>
 
     <!-- Custom JS to add and remove item forms -->
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
@@ -162,7 +148,7 @@
                 }
                 total--;
             } else {
-                custom_alert.render('Field cannot be deleted');
+                custom_alert.render("Field cannot be deleted");
             }
             return false;
         }
@@ -180,51 +166,41 @@
         });
 
 
-        //stores pk and quantity of all stocks into a js object 'stocks'
-        var stocks = [
-            {% for stock in stocks %}
-                {% if not forloop.first %},{% endif %}
-                {
-                    pk          : {{ stock.pk }},
-                    quantity    : {{ stock.quantity }}
-                }
-            {% endfor %}
-        ];
-        
         //updates the total price by multiplying 'price per item' and 'quantity' 
         $(document).on('change', '.setprice', function(e){
             e.preventDefault();
             //gets the values
             var element = $(this);
-            var stock = element.parents('.form-row').find('.stock').val();
             var quantity = element.parents('.form-row').find('.quantity').val();
             var perprice = element.parents('.form-row').find('.price').val();
-            //checks if stocks are available
-            stocks.forEach(function(stockSummary, i) {
-                var pk = stocks[i].pk;
-                var squantity = stocks[i].quantity;
-                if(stock == pk) {
-                    //checks if ordered stock is more than available stock
-                    if(quantity > squantity){
-                        quantity = quantity - 1;
-                        if(quantity <= 1){
-                            //no stocks are available. Attempts to delete field
-                            custom_alert.render('Stocks are currently unavailable. Field will be removed;');
-                            //Sets quantity to 0 as failsafe for when the total no of item forms are 1
-                            element.parents('.form-row').find('.quantity').val(0);
-                            deleteForm('form', element);
-                        } else {
-                            element.parents('.form-row').find('.quantity').val(squantity-1);
-                            quantity = squantity - 1;
-                            custom_alert.render('Exceeded current stock available');
-                        }
-                    }
-                }
-            });     
             //calculates the total
             var tprice = quantity * perprice;
             //sets it to field
             element.parents('.form-row').find('.totalprice').val(tprice);
+            return false;
+        });
+
+        $(document).on('change', '.barcode', function(e){
+            e.preventDefault();
+            //gets the values
+            var element = $(this);
+            var barcode = element.parents('.form-row').find('.barcode').val();
+            $.ajax({
+                url: "{% url 'get_sellingprice' %}",
+                data: {'barcode':barcode},
+                success: function(data){
+                    var id_getprice = $('.price:last').attr("id")
+                    var id_quantity = $('.quantity:last').attr("id")
+                    document.getElementById(id_getprice).value = data.selling_price
+                    document.getElementById(id_quantity).value = 1
+                    var quantity = element.parents('.form-row').find('.quantity').val();
+                    var perprice = element.parents('.form-row').find('.price').val();
+                    //calculates the total
+                    var tprice = quantity * perprice;
+                    //sets it to field
+                    element.parents('.form-row').find('.totalprice').val(tprice);
+                }
+            });
             return false;
         });
 

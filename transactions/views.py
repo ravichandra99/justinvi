@@ -16,7 +16,8 @@ from .models import (
     PurchaseBillDetails,
     SaleBill,  
     SaleItem,
-    SaleBillDetails
+    SaleBillDetails,
+    Dealer
 )
 from .forms import (
     SelectSupplierForm, 
@@ -25,7 +26,9 @@ from .forms import (
     SupplierForm, 
     SaleForm,
     SaleItemFormset,
-    SaleDetailsForm
+    SaleDetailsForm,
+    SelectDealerForm,
+    DealerForm
 )
 from inventory.models import Stock
 
@@ -163,9 +166,10 @@ class PurchaseCreateView(View):
             for form in formset:                                                # for loop to save each individual form as its own object
                 # false saves the item and links bill to the item
                 billitem = form.save(commit=False)
-                billitem.billno = billobj                                       # links the bill object to the items
+                billitem.billno = billobj                                      # links the bill object to the items
                 # gets the stock item
-                stock = get_object_or_404(Stock, name=billitem.stock.name)       # gets the item
+                stock = get_object_or_404(Stock, barcode=billitem.barcode)       # gets the item
+                billitem.stock = stock
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
@@ -233,7 +237,8 @@ class SaleCreateView(View):
         if form.is_valid() and formset.is_valid():
             # saves bill
             billobj = form.save(commit=False)
-            billobj.save()     
+            billobj.save()
+            print(billobj)     
             # create bill details object
             billdetailsobj = SaleBillDetails(billno=billobj)
             billdetailsobj.save()
@@ -288,11 +293,20 @@ class PurchaseBillView(View):
     bill_base = "bill/bill_base.html"
 
     def get(self, request, billno):
+        bill = PurchaseBill.objects.get(billno=billno)
+        items = PurchaseItem.objects.filter(billno=billno)
+        billdetails = PurchaseBillDetails.objects.get(billno=billno)
+        sgst_amount = [i.totalprice * i.stock.sgst/100 for i in items]
+        cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
+        total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
+        amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
+        total = sum(total_amount)
         context = {
-            'bill'          : PurchaseBill.objects.get(billno=billno),
-            'items'         : PurchaseItem.objects.filter(billno=billno),
-            'billdetails'   : PurchaseBillDetails.objects.get(billno=billno),
+            'bill'          : bill,
+            'items'         : list(zip(items,sgst_amount,cgst_amount,total_amount)),
+            'billdetails'   : billdetails,
             'bill_base'     : self.bill_base,
+            'total'         : total,
         }
         return render(request, self.template_name, context)
 
@@ -330,17 +344,27 @@ class SaleBillView(View):
     bill_base = "bill/bill_base.html"
     
     def get(self, request, billno):
+        bill = SaleBill.objects.get(billno=billno)
+        items = SaleItem.objects.filter(billno=billno)
+        billdetails = SaleBillDetails.objects.get(billno=billno)
+        sgst_amount = [i.totalprice * i.stock.sgst/100 for i in items]
+        cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
+        total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
+        amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
+        total = sum(total_amount)
         context = {
-            'bill'          : SaleBill.objects.get(billno=billno),
-            'items'         : SaleItem.objects.filter(billno=billno),
-            'billdetails'   : SaleBillDetails.objects.get(billno=billno),
+            'bill'          : bill,
+            'items'         : list(zip(items,sgst_amount,cgst_amount,total_amount)),
+            'billdetails'   : billdetails,
             'bill_base'     : self.bill_base,
+            'total'         : total,
         }
         return render(request, self.template_name, context)
 
     def post(self, request, billno):
         form = SaleDetailsForm(request.POST)
         if form.is_valid():
+            print(request.POST)
             billdetailsobj = SaleBillDetails.objects.get(billno=billno)
             
             billdetailsobj.eway = request.POST.get("eway")    
@@ -363,3 +387,180 @@ class SaleBillView(View):
             'bill_base'     : self.bill_base,
         }
         return render(request, self.template_name, context)
+
+class DealerView(View):
+    def get(self, request, name):
+        dealerobj = get_object_or_404(Dealer, name=name)
+        bill_list = SaleBill.objects.filter(dealer=dealerobj)
+        page = request.GET.get('page', 1)
+        paginator = Paginator(bill_list, 10)
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+        context = {
+            'dealer'  : dealerobj,
+            'bills'     : bills
+        }
+        return render(request, 'dealers/dealer.html', context)
+
+# shows a lists of all dealers
+class DealerListView(ListView):
+    model = Dealer
+    template_name = "dealers/dealers_list.html"
+    queryset = Dealer.objects.filter(is_deleted=False)
+    paginate_by = 10
+
+
+# used to add a new dealer
+class DealerCreateView(SuccessMessageMixin, CreateView):
+    model = Dealer
+    form_class = DealerForm
+    success_url = '/transactions/dealers'
+    success_message = "Dealer has been created successfully"
+    template_name = "suppliers/edit_supplier.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'New Dealer'
+        context["savebtn"] = 'Add Dealer'
+        return context  
+
+
+# used to update a dealers's info
+class DealerUpdateView(SuccessMessageMixin, UpdateView):
+    model = Dealer
+    form_class = DealerForm
+    success_url = '/transactions/dealers'
+    success_message = "Dealer details has been updated successfully"
+    template_name = "dealers/edit_dealer.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Edit Dealer'
+        context["savebtn"] = 'Save Changes'
+        context["delbtn"] = 'Delete Dealer'
+        return context
+
+# used to delete a supplier
+class DealerDeleteView(View):
+    template_name = "dealers/delete_dealer.html"
+    success_message = "Dealer has been deleted successfully"
+
+    def get(self, request, pk):
+        dealer = get_object_or_404(Dealer, pk=pk)
+        return render(request, self.template_name, {'object' : dealer})
+
+    def post(self, request, pk):  
+        dealer = get_object_or_404(Dealer, pk=pk)
+        dealer.is_deleted = True
+        dealer.save()                                               
+        messages.success(request, self.success_message)
+        return redirect('dealers-list')
+
+
+# used to delete a supplier
+class SupplierDeleteView(View):
+    template_name = "suppliers/delete_supplier.html"
+    success_message = "Supplier has been deleted successfully"
+
+    def get(self, request, pk):
+        supplier = get_object_or_404(Supplier, pk=pk)
+        return render(request, self.template_name, {'object' : supplier})
+
+    def post(self, request, pk):  
+        supplier = get_object_or_404(Supplier, pk=pk)
+        supplier.is_deleted = True
+        supplier.save()                                               
+        messages.success(request, self.success_message)
+        return redirect('suppliers-list')
+
+
+# used to view a supplier's profile
+class SupplierView(View):
+    def get(self, request, name):
+        supplierobj = get_object_or_404(Supplier, name=name)
+        bill_list = PurchaseBill.objects.filter(supplier=supplierobj)
+        page = request.GET.get('page', 1)
+        paginator = Paginator(bill_list, 10)
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+        context = {
+            'supplier'  : supplierobj,
+            'bills'     : bills
+        }
+        return render(request, 'suppliers/supplier.html', context)
+
+# used to select the supplier
+class SelectDealerView(View):
+    form_class = SelectDealerForm
+    template_name = 'sales/select_dealer.html'
+
+    def get(self, request, *args, **kwargs):                                    # loads the form page
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):                                   # gets selected supplier and redirects to 'PurchaseCreateView' class
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            supplierid = request.POST.get("dealer")
+            supplier = get_object_or_404(Dealer, id=supplierid)
+            return redirect('new-sales', supplier.pk)
+        return render(request, self.template_name, {'form': form})
+
+class SalesCreateView(View):                                                 
+    template_name = 'sales/new_sale.html'
+
+    def get(self, request, pk):
+        formset = SaleItemFormset(request.GET or None)                      # renders an empty formset
+        supplierobj = get_object_or_404(Dealer, pk=pk)                        # gets the supplier object
+        context = {
+            'formset'   : formset,
+            'supplier'  : supplierobj,
+        }                                                                       # sends the supplier and formset as context
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        formset = SaleItemFormset(request.POST)                             # recieves a post method for the formset
+        supplierobj = get_object_or_404(Dealer, pk=pk)                       # gets the supplier object
+        if formset.is_valid():
+            # saves bill
+            billobj = SaleBill(dealer=supplierobj)                        # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
+            billobj.save()                                                      # saves object into the db
+            # create bill details object
+            billdetailsobj = SaleBillDetails(billno=billobj)
+            billdetailsobj.save()
+            for form in formset:                                                # for loop to save each individual form as its own object
+                # false saves the item and links bill to the item
+                billitem = form.save(commit=False)
+                billitem.billno = billobj
+                print(billitem.barcode)                                  # links the bill object to the items
+                # gets the stock item
+                stock = get_object_or_404(Stock, barcode=billitem.barcode)
+                print(stock)      # gets the item
+                # calculates the total price
+                billitem.totalprice = billitem.perprice * billitem.quantity
+                # updates quantity in stock db
+                if stock.quantity <= 0:
+                    messages.success(request, "WOW STOCK EMPTY.!")
+                    return render(request,'nostock.html')
+                stock.quantity -= billitem.quantity  
+                billitem.stock = stock                            # updates quantity
+                # saves bill item and stock
+                stock.save()
+                billitem.save()
+            messages.success(request, "Sold items have been registered successfully")
+            return redirect('sale-bill', billno=billobj.billno)
+        formset = SaleItemFormset(request.GET or None)
+        context = {
+            'formset'   : formset,
+            'supplier'  : supplierobj
+        }
+        return render(request, self.template_name, context)
+
