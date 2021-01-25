@@ -67,13 +67,15 @@ class StockDeleteView(View):                                                    
 def get_costprice(request):
     barcode = request.GET.get('barcode')
     stock = get_object_or_404(Stock, barcode = barcode)
+    name = stock.name
     cost_price = stock.cost_price
-    data = {'cost_price':cost_price}
+    data = {'cost_price':cost_price, 'name':name}
     return JsonResponse(data)
 
 def get_sellingprice(request):
     barcode = request.GET.get('barcode')
     stock = get_object_or_404(Stock, barcode = barcode)
+    name=stock.name
     selling_price = stock.selling_price
-    data = {'selling_price':selling_price}
+    data = {'selling_price':selling_price, 'name':name}
     return JsonResponse(data)

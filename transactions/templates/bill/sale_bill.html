@@ -20,7 +20,7 @@
 
             <div id="printArea" class="bg">
 
-                <table class="outer-box inner-box" style="width: 800px; margin-left: auto; margin-right: auto;">
+                <table class="outer-box inner-box table table-bordered" style="width: 800px; margin-left: auto; margin-right: auto;">
                     <tbody>
                     
                         <tr style="height: 1px;">
@@ -54,23 +54,23 @@
                                         <td class="inner-box" style="width: 25%;">&nbsp;{{ bill.time.date }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 50%;" rowspan="3">{{ bill.address|linebreaks }}</td>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;EWAY NO</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="eway" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.eway %}{{ billdetails.eway }}{% endif %}"> </td>
+                                        <!-- <td class="inner-box" style="width: 50%; height: 100px;" rowspan="3">{{ bill.address|linebreaks }}</td> -->
+                                        <!-- <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;EWAY NO</td> -->
+                                        <!-- <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="eway" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.eway %}{{ billdetails.eway }}{% endif %}"> </td> -->
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;VEH NO</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="veh" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.veh %}{{ billdetails.veh }}{% endif %}"> </td>
+                                        <!-- <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;VEH NO</td>
+                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="veh" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.veh %}{{ billdetails.veh }}{% endif %}"> </td> -->
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;DESTINATION</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="destination" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.destination %}{{ billdetails.destination }}{% endif %}"> </td>
+                                        <!-- <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;DESTINATION</td>
+                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="destination" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.destination %}{{ billdetails.destination }}{% endif %}"> </td> -->
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;GSTIN No : {{ bill.gstin }} </td>
                                         <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;PO NO &amp; DATE</td>
                                         <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="po" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.po %}{{ billdetails.po }}{% endif %}"> </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                             </td>
@@ -123,10 +123,10 @@
                                             <p> <span style="font-weight: bold;">BANK DETAILS <br> company</span> <br>
                                                 bank name <br> AC NO-000 000 000 000 000 <br> IFSC CODE - ABCD 000 0000 <br> BRANCH <br> PH NO - 0123456789</p>
                                         </td>
-                                        <td class="inner-box" style="width: 30%; font-weight: bold;">&nbsp;CGST @ 2.5%</td>
-                                        <td class="inner-box align-middle" style="width: 30%;">&nbsp; <input type="text" name="cgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cgst %}{{ billdetails.cgst }}{% endif %}"></td>
+                                        <!-- <td class="inner-box" style="width: 30%; font-weight: bold;">&nbsp;CGST @ 2.5%</td>
+                                        <td class="inner-box align-middle" style="width: 30%;">&nbsp; <input type="text" name="cgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cgst %}{{ billdetails.cgst }}{% endif %}"></td> -->
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;SGST @ 2.5%</td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="sgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.sgst %}{{ billdetails.sgst }}{% endif %}"></td>
                                     </tr>
@@ -141,7 +141,7 @@
                                     <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;TCS @ 1%</td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="tcs" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.tcs %}{{ billdetails.tcs }}{% endif %}"></td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;TOTAL</td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="total" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.total %}{{ total }}{% endif %}"> </td>
@@ -176,7 +176,7 @@
 
         <div class="wrapper">
             <button class="center ghost-blue" onclick="printpage('printArea')">Print</button>
-            <button class="center ghost-green" type="submit">Save Draft</button>
+            <!-- <button class="center ghost-green" type="submit">Save Draft</button> -->
             <a href="{% url 'sales-list' %}" class="btn center ghost-button">Go Back</a>
         </div>
     

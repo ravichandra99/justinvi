@@ -16,16 +16,20 @@ class HomeView(View):
             data.append(item.quantity)
         sales = SaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
-        s = SaleBillDetails.objects.aggregate(Sum('total'))
-        p = PurchaseBillDetails.objects.aggregate(Sum('total'))
+        s = SaleBillDetails.objects.aggregate(Sum('total'))['total__sum']
+        p = PurchaseBillDetails.objects.aggregate(Sum('total'))['total__sum']
         print(p,s)
-        # pol = s - p
+        if p is None:
+            p = 0
+        pol = s - p
         context = {
             'labels'    : labels,
             'data'      : data,
             'sales'     : sales,
             'purchases' : purchases,
-            # 'pol'       : pol
+            'pol'       : pol,
+            's' : s,
+            'p' : p
         }
         return render(request, self.template_name, context)
 
