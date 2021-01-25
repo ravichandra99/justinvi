@@ -181,12 +181,12 @@
             var id_barcode = $('.barcode:last').attr("id");
             var barcode = $(`#${id_barcode}`).val();
             $.ajax({
-                url: "{% url 'get_costprice' %}",
+                url: "{% url 'get_sellingprice' %}",
                 data: {'barcode':barcode},
                 success: function(data){
                     var id_getprice = $('.price:last').attr("id")
                     var id_quantity = $('.quantity:last').attr("id")
-                    document.getElementById(id_getprice).value = data.cost_price;
+                    document.getElementById(id_getprice).value = data.selling_price;
                     document.getElementById(id_quantity).value = 1;
                     cloneMore('.form-row:last', 'form');
                 }
