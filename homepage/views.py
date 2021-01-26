@@ -17,8 +17,8 @@ class HomeView(View):
         sales = SaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
         try:
-            s = SaleBillDetails.objects.aggregate(Sum('total'))['total__sum']
-            p = PurchaseBillDetails.objects.aggregate(Sum('total'))['total__sum']
+            s = sum([i.total for i in SaleBillDetails.objects.all()])
+            p = sum([i.total for i in PurchaseBillDetails.objects.all()])
         except:
             p = 0
             s = 0
