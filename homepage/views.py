@@ -16,8 +16,12 @@ class HomeView(View):
             data.append(item.quantity)
         sales = SaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
-        s = SaleBillDetails.objects.aggregate(Sum('total'))['total__sum']
-        p = PurchaseBillDetails.objects.aggregate(Sum('total'))['total__sum']
+        try:
+            s = SaleBillDetails.objects.aggregate(Sum('total'))['total__sum']
+            p = PurchaseBillDetails.objects.aggregate(Sum('total'))['total__sum']
+        except:
+            p = 0
+            s = 0
         print(p,s)
         if p is None:
             p = 0
