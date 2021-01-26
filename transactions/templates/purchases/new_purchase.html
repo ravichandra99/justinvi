@@ -165,6 +165,7 @@
         var forLoopId = $('.price:last').attr('id').split('-')[1];
         $('.justname:last').attr('id', `justname${forLoopId}`);
         $('.justname:last').html('');
+        $('.barcode:last').focus();
         $('.totalprice:last').val('');
         return false;
     }
