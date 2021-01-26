@@ -16,16 +16,22 @@ class HomeView(View):
             data.append(item.quantity)
         sales = SaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
+
         try:
-            s = sum([i.total for i in SaleBillDetails.objects.all()])
-            p = sum([i.total for i in PurchaseBillDetails.objects.all()])
+            sList = [i.total for i in SaleBillDetails.objects.all() if i.total is not None and i.total != '']
+            pList = [i.total for i in PurchaseBillDetails.objects.all() if i.total is not None and i.total != '']
+            print(sList,pList)
+            sfloat = [float(i) for i in sList]
+            pfloat = [float(i) for i in pList]
+            s = sum(sfloat)
+            p = sum(pfloat)
+
         except:
-            p = 0
             s = 0
-        print(p,s)
-        if p is None:
             p = 0
+
         pol = s - p
+
         context = {
             'labels'    : labels,
             'data'      : data,
