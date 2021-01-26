@@ -6,64 +6,72 @@
 
 {% block content %}
 
-    <div style="color:#ea2088; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> 
+    <div style="color:#402657; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> 
     
     <br>
     
-    <form method="post">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form method="post">
     
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.name.errors }}
+                        <label for="{{ form.name.id_for_label }}">Name:</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.quantity.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+                        {{ form.quantity }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.cost_price.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">cost price:</label>
+                        {{ form.cost_price }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.selling_price.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">selling price:</label>
+                        {{ form.selling_price }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.sgst.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">SGST:</label>
+                        {{ form.sgst }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.cgst.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">CGST:</label>
+                        {{ form.cgst }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.barcode.errors }}
+                        <label for="{{ form.quantity.id_for_label }}">Barcode:</label>
+                        {{ form.barcode }}
+                    </div>
+                </div>
         
-        <div class="form-group">
-            {{ form.name.errors }}
-            <label for="{{ form.name.id_for_label }}">Name:</label>
-            {{ form.name }}
-        </div>
-        <div class="form-group ">
-            {{ form.quantity.errors }}
-            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
-            {{ form.quantity }}
-        </div>
-        <div class="form-group ">
-            {{ form.cost_price.errors }}
-            <label for="{{ form.quantity.id_for_label }}">cost price:</label>
-            {{ form.cost_price }}
-        </div>
-        <div class="form-group ">
-            {{ form.selling_price.errors }}
-            <label for="{{ form.quantity.id_for_label }}">selling price:</label>
-            {{ form.selling_price }}
-        </div>
-        <div class="form-group ">
-            {{ form.sgst.errors }}
-            <label for="{{ form.quantity.id_for_label }}">SGST:</label>
-            {{ form.sgst }}
-        </div>
-        <div class="form-group ">
-            {{ form.cgst.errors }}
-            <label for="{{ form.quantity.id_for_label }}">CGST:</label>
-            {{ form.cgst }}
-        </div>
-        <div class="form-group ">
-            {{ form.barcode.errors }}
-            <label for="{{ form.quantity.id_for_label }}">Barcode:</label>
-            {{ form.barcode }}
-        </div>
-
-        <br>
-
-        <div class="align-middle">
-            <button type="submit" class="btn ghost-green">{{ savebtn }}</button>
-            {% if title == "New Stock" %}
-                <button type="reset" class="btn ghost-blue" >Reset</button>
-            {% endif %}
-            {% if delbtn %}
-                <a href="{% url 'delete-stock' object.pk %}" class="btn ghost-red"> Delete Stock </a>
-            {% endif %}
-            <a href="{% url 'inventory' %}" class="btn ghost-button">Cancel</a>
-        </div>
+                <br>
         
-    </form>
+                <div class="align-middle">
+                    <button type="submit" class="btn ghost-green">{{ savebtn }}</button>
+                    {% if title == "New Stock" %}
+                        <button type="reset" class="btn ghost-blue" >Reset</button>
+                    {% endif %}
+                    {% if delbtn %}
+                        <a href="{% url 'delete-stock' object.pk %}" class="btn ghost-red"> Delete Stock </a>
+                    {% endif %}
+                    <a href="{% url 'inventory' %}" class="btn ghost-button">Cancel</a>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

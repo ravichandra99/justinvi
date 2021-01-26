@@ -19,42 +19,42 @@
 body,
 html {
   height: 100%;
-  background-color: #000000;
+  /* background-color: #000000; */
 }
 
 .form-group{
-  color:white;
-}
-
-label{
-  color: white;
-  font-size: 2rem;
-}
-
-.fal{               /* Add any text to turn white */
-  color:white;
-}
-
-.breadcrumb{
-  background-color: #ea2088;
-  color:#ff9df0;
-}
-
-p{
-  color:white;   /* For About */
-}
-
-a{
-  color:#FF9DF0;
-}
-
-ol li a{
   color:black;
 }
 
-ol,li,a:hover{
-  color:white ;
+label{
+  color: black;
+  font-size: 2rem;
 }
+
+.fal{               /* Add any text to turn black */
+  color:black;
+}
+
+.breadcrumb{
+  background-color: #53346D;
+  color:#fff;
+}
+
+p{
+  color:black;   /* For About */
+}
+
+a{
+  color:#402657;
+}
+
+ol li a{
+  color:#fff !important;
+}
+
+/* ol,li,a:hover{
+  color:black ;
+} */
 
 .navbar-collapse > .navbar-nav { 
   background-color: #000000; 
@@ -62,10 +62,10 @@ ol,li,a:hover{
 
 
 .breadcrumb-item{
-  color:white;
+  color:black;
 }
 .breadcrumb-item.active{
-  color:white;
+  color:black;
 }
 
 
@@ -116,12 +116,12 @@ ol,li,a:hover{
 
 
 .table-css{
-  color:#ffffff;
+  color:black;
 }
 
 .btn-primary{
   border: none;
-  color: white;
+  color: black;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -130,7 +130,7 @@ ol,li,a:hover{
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #ffffff;
+  color: black;
 }
 
 ul {
@@ -158,18 +158,18 @@ ul {
 
 .navbar-colapse{
   background-color:black;
-  color:white;
+  color:black;
   box-shadow: 0 2px 7px #ea2088;
 }
 
 
 .dropdown-menu{
   background-color:black;
-  color:white;
-  box-shadow: 0 2px 7px #ea2088;
+  color:black;
+  box-shadow: 0 2px 7px #402657;
 }
 .dropdown-item{
-  color:white;
+  color:black;
 }
 
 .dropdown-item:hover{
@@ -183,8 +183,8 @@ ul {
 
 .content-section {
   background: transparent;
-  box-shadow: 0 4px 10px #ea2088;
-  color:white;
+  box-shadow: 0 0px 6px #402657;
+  color:black;
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
@@ -258,39 +258,39 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .textinput{
-  background-color: #4F102B;
-  color: white;
+  background-color: #fff;
+  color: black;
 }
 
 .textinput:disabled{
-  background-color: rgb(158, 27, 84);
+  background-color: #fff;
   color: white;
 }
 
 .putprice {
   background-color: #9e1b54 !important;
-  color: white;
+  color: black;
 }
 
 .emailinput{
   background-color: #4F102B;
-  color: white;
+  color: black;
 }
 
 .emailinput.focus{
   background-color: #4F102B;
-  color: white;
+  color: black;
 }
 
 .textinput:focus{
-  background-color:#4F102B;
-  color: white;
+  background-color:#fff;
+  color: black;
 }
 
 .ghost-button {
-  color: rgb(255, 255, 255);
+  color: red;
   background-color: transparent;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid red;
   font-size: 17px;
   padding: 7px 12px;
   font-weight: bolder;
@@ -303,16 +303,16 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .ghost-button:hover, .ghost-button:active {
-  color:#fff;
+  color:black;
   background-color:transparent;
-  box-shadow: 0 2px 7px #ffffff;
+  box-shadow: 0 2px 7px red;
 }
 
 
 .ghost-blue {
-  color: #228DFF;
+  color: #402657;
   background-color: transparent;
-  border: 2px solid #228DFF;
+  border: 2px solid #402657;
   font-size: 17px;
   padding: 7px 12px;
   font-weight: bolder;
@@ -325,16 +325,15 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .ghost-blue:hover, .ghost-blue:active {
-  color:#fff;
+  color:black;
   background-color:transparent;
-  box-shadow: 0 2px 7px #0000ff;
 }
 
 
 .ghost-green {
-  color: #27ff34;
+  color: #2D5304;
   background-color: transparent;
-  border: 2px solid #27ff34;
+  border: 2px solid #2D5304;
   font-size: 17px;
   padding: 7px 12px;
   font-weight: bolder;
@@ -347,16 +346,16 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .ghost-green:hover, .ghost-green:active {
-  color:#fff;
+  color:black;
   background-color:transparent;
-  box-shadow: 0 2px 7px #27ff34;
+  box-shadow: 0 2px 7px #2D5304;
 }
  
 
 .ghost-pink {
-  color: #ea2088;
+  color: #402657;
   background-color: transparent;
-  border: 2px solid #ea2088;
+  border: 2px solid #402657;
   font-size: 17px;
   padding: 7px 12px;
   transition-duration: 0.2s;
@@ -369,9 +368,9 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .ghost-pink:hover, .ghost-pink:active {
-  color:#fff;
+  color:black;
   background-color:transparent;
-  box-shadow: 0 2px 7px #ea2088;
+  box-shadow: 0 2px 7px #402657;
 }
 
 
@@ -391,7 +390,7 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .ghost-red:hover, .ghost-red:active {
-  color:#fff;
+  color:black;
   background-color:transparent;
   box-shadow: 0 2px 7px #ff3c16;
 }
@@ -403,25 +402,25 @@ html { width: 100%; height:100%; overflow:hidden; }
 
 .glow:hover {
   background-color: #014c8f;
-  color: white;
+  color: black;
   box-shadow: 0 2px 7px #ea2088;
 }
 
 .btn-pink{
-  color:#fff;
-  background-color:#ea2088;
-  border-color: #fff;
-  border-left-color: #ea2088;
+  color:white;
+  background-color:#53346D;
+  border-color: #53346D;
+  border-left-color: #53346D;
 }
 
 .btn-pink:hover{
-  color:#fff;
-  background-color:#f03d99;
-  border-color:#f03d99;
+  color:white;
+  background-color:#53346D;
+  border-color:#53346D;
 }
 
 .panel-heading-text{
-  color: #f03d99;
+  color: #402657;
   font-size: 1.7rem;
   border-bottom: 2px solid white;
   margin-bottom: 10px;
@@ -430,3 +429,5 @@ html { width: 100%; height:100%; overflow:hidden; }
 .panel-body-text{
   font-size: 1.2rem;
 }
+
+
