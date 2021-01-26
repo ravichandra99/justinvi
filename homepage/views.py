@@ -37,7 +37,7 @@ class HomeView(View):
             'data'      : data,
             'sales'     : sales,
             'purchases' : purchases,
-            'pol'       : pol,
+            'pol'       : round(pol,2),
             's' : s,
             'p' : p
         }
