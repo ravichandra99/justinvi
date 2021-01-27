@@ -29,10 +29,11 @@
                     
                         <tr style="text-align: center;">
                             <td >
-                                <span style="font-size: 350%;">{{bill.dealer.name}}</span> <br>
-                                <span style="font-size: 120%; font-weight: bold; text-decoration: underline;">DEALER DETAILS:</span> <br>
-                                <span style="text-decoration: underline; font-weight: bold;">REGD ADDRESS :</span> {{bill.dealer.address|linebreaks}}
-                                <span style="text-decoration: underline; font-weight: bold;">EMAIL : {{bill.dealer.email}}</span> <br><br>
+                                <span style="font-size: 350%;">AMR Distributors</span> <br>
+                                <!-- <span style="font-size: 120%; font-weight: bold; text-decoration: underline;">DEALER DETAILS:</span> <br> -->
+                                <span style="text-decoration: underline; font-weight: bold;">REGD ADDRESS : </span> 
+                                <span>Plot No. 502, Sloka Residency, Teachers Colony, Vijayawada.</span><br>
+                                <span style="text-decoration: underline; font-weight: bold;">EMAIL : amr2019.amul@gmail.com</span> <br><br>
                             </td>
                         </tr>
                     
@@ -41,15 +42,17 @@
                             <table class="outer-box" style="width: 800px; margin-left: auto; margin-right: auto;">
                                 <tbody>
                                     <tr>
-                                        <td class="inner-box" style="text-align: center; font-weight: bold;" colspan="3">GSTIN NO - {{bill.dealer.gstin}}</td>
+                                        <td class="inner-box" style="text-align: center; font-weight: bold;" colspan="3">GSTIN NO - 37ABOFA3614R1ZU</td>
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 50%; font-weight: bold;">&nbsp;NAME OF CONSIGNEE / BUYER : </td>
+                                        <td class="inner-box" style="width: 50%; font-weight: bold;">&nbsp;NAME OF CONSIGNEE / BUYER : <b>{{bill.dealer.name}}</b></td>
+                                        
+                                        
                                         <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;INVOICE NO</td>
                                         <td class="inner-box" style="width: 25%;">&nbsp;{{ bill.billno }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 50%;">&nbsp;{{ bill.name }}</td>
+                                        <td class="inner-box" style="width: 50%;">&nbsp;Address: <br> {{bill.dealer.address|linebreaks}}</td>
                                         <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;DATE</td>
                                         <td class="inner-box" style="width: 25%;">&nbsp;{{ bill.time.date }}</td>
                                     </tr>
@@ -120,8 +123,8 @@
                                 <tbody>
                                     <tr>
                                         <td class="inner-box" style="width: 35%; text-align: center;" rowspan="6">
-                                            <p> <span style="font-weight: bold;">BANK DETAILS <br> company</span> <br>
-                                                bank name <br> AC NO-000 000 000 000 000 <br> IFSC CODE - ABCD 000 0000 <br> BRANCH <br> PH NO - 0123456789</p>
+                                            <p> <span style="font-weight: bold;">BANK DETAILS: <br> AMR Distributors</span> <br>
+                                                Bank name : RBL<br> AC NO-409001042413 <br> IFSC CODE - RATN0000241<br> Vijayawada Branch <br></p>
                                         </td>
                                         <!-- <td class="inner-box" style="width: 30%; font-weight: bold;">&nbsp;CGST @ 2.5%</td>
                                         <td class="inner-box align-middle" style="width: 30%;">&nbsp; <input type="text" name="cgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cgst %}{{ billdetails.cgst }}{% endif %}"></td> -->
