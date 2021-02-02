@@ -300,7 +300,9 @@ class PurchaseBillView(View):
         cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
         total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
         amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
-        total = sum(total_amount)
+        total = round(sum(total_amount),2)
+        billdetails.total = total
+        billdetails.save()
         context = {
             'bill'          : bill,
             'items'         : list(zip(items,sgst_amount,cgst_amount,total_amount)),
@@ -351,7 +353,9 @@ class SaleBillView(View):
         cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
         total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
         amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
-        total = sum(total_amount)
+        total = round(sum(total_amount),2)
+        billdetails.total = total
+        billdetails.save()
         context = {
             'bill'          : bill,
             'items'         : list(zip(items,sgst_amount,cgst_amount,total_amount)),

@@ -28,7 +28,7 @@
         <nav id="sidebar">
             
             <div class="sidebar-header">
-                <a class="navbar-brand titlefont mr-4" href="{% url 'home' %}"><h3>Invi</h3></a>
+                <a class="navbar-brand mr-4 text-wrap" href="{% url 'home' %}"><h3 class="text-white">Stock Management</h3></a>
             </div>
 
             <ul class="list-unstyled sidebar-components">
@@ -65,15 +65,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#supplierSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button">Dealers</a>
-                    <ul class="collapse list-unstyled" id="supplierSubmenu">
+                    <a href="#dealerSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button">Dealers</a>
+                    <ul class="collapse list-unstyled" id="dealerSubmenu">
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'dealers-list' %}">Dealers List</a> </li>
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'new-dealer' %}">Add New Dealer</a> </li>
                     </ul>
                 </li>
-                <li>
-                    <a class="sidebar-text sidebar-button" href="{% url 'about' %}">About</a>
-                </li>
+
 
                 <li class="bottomleft">
                     {% if user.is_authenticated %}

@@ -2,7 +2,7 @@
 **/__pycache__/**
 
 #migrations, you can auto generate them using makemigrations and migrate commands
-**/migrations/**
+# **/migrations/**
 
 
 # Created by https://www.gitignore.io/api/django

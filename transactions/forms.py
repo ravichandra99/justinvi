@@ -32,6 +32,7 @@ class PurchaseItemForm(forms.ModelForm):
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
         self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control setprice barcode'})
+        
     class Meta:
         model = PurchaseItem
         fields = ['quantity', 'perprice','barcode']
@@ -107,6 +108,7 @@ class SaleItemForm(forms.ModelForm):
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
         self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control barcode'})
+        
 
     class Meta:
         model = SaleItem
