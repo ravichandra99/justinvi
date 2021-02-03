@@ -362,6 +362,10 @@ class SaleBillView(View):
             'billdetails'   : billdetails,
             'bill_base'     : self.bill_base,
             'total'         : total,
+            'total_sgst' : sum(sgst_amount),
+            'total_cgst' : sum(cgst_amount),
+            # 'undupesgst' : list(set([i.stock.sgst for i in items])),
+            # 'undupecgst' : list(set([i.stock.cgst for i in items])),
         }
         return render(request, self.template_name, context)
 

@@ -126,22 +126,22 @@
                                             <p> <span style="font-weight: bold;">BANK DETAILS: <br> AMR Distributors</span> <br>
                                                 Bank name : RBL<br> AC NO-409001042413 <br> IFSC CODE - RATN0000241<br> Vijayawada Branch <br></p>
                                         </td>
-                                        <!-- <td class="inner-box" style="width: 30%; font-weight: bold;">&nbsp;CGST @ 2.5%</td>
-                                        <td class="inner-box align-middle" style="width: 30%;">&nbsp; <input type="text" name="cgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cgst %}{{ billdetails.cgst }}{% endif %}"></td> -->
+                                        <td class="inner-box" style="width: 30%; font-weight: bold;">&nbsp;Total CGST</td>
+                                        <td class="inner-box align-middle" style="width: 30%;">&nbsp; <input type="text" name="cgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cgst %}{{ billdetails.cgst }}{% endif %}">{{total_cgst}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="inner-box" style="font-weight: bold;">&nbsp;Total SGST</td>
+                                        <td class="inner-box align-middle">&nbsp; <input type="text" name="sgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.sgst %}{{ billdetails.sgst }}{% endif %}">{{total_sgst}}</td>
                                     </tr>
                                     <!-- <tr>
-                                        <td class="inner-box" style="font-weight: bold;">&nbsp;SGST @ 2.5%</td>
-                                        <td class="inner-box align-middle">&nbsp; <input type="text" name="sgst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.sgst %}{{ billdetails.sgst }}{% endif %}"></td>
-                                    </tr>
-                                    <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;IGST @ 5% </td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="igst" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.igst %}{{ billdetails.igst }}{% endif %}"></td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;CESS @ 400/PMT </td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="cess" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.cess %}{{ billdetails.cess }}{% endif %}"></td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td class="inner-box" style="font-weight: bold;">&nbsp;TCS @ 1%</td>
                                         <td class="inner-box align-middle">&nbsp; <input type="text" name="tcs" class="align-middle" pattern="[0-9]+\.[0-9]+" style="border: 0; overflow: hidden;" value="{% if billdetails.tcs %}{{ billdetails.tcs }}{% endif %}"></td>
                                     </tr> -->
