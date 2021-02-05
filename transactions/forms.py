@@ -11,6 +11,7 @@ from .models import (
     Dealer
 )
 from inventory.models import Stock
+from dal import autocomplete
 
 
 # form used to select a supplier
@@ -101,18 +102,23 @@ class SaleForm(forms.ModelForm):
 
 # form used to render a single stock item form
 class SaleItemForm(forms.ModelForm):
+    stock = forms.CharField(widget = forms.TextInput)
+    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
-        # self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
+        self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
+        self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
         self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control barcode'})
+
         
 
     class Meta:
         model = SaleItem
         fields = ['quantity', 'perprice', 'barcode']
+
 
 # formset used to render multiple 'SaleItemForm'
 SaleItemFormset = formset_factory(SaleItemForm, extra=1)

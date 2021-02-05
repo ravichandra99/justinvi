@@ -79,3 +79,10 @@ def get_sellingprice(request):
     selling_price = stock.selling_price
     data = {'selling_price':selling_price, 'name':name}
     return JsonResponse(data)
+
+def get_stock(request):
+    stock = request.GET.get('stock')
+    stocks = Stock.objects.filter(name__startswith = stock)
+    print(stocks)
+    return render(request, 'sales/stock_list.html', {'stocks': stocks})
+

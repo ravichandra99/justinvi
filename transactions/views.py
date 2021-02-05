@@ -34,7 +34,6 @@ from inventory.models import Stock
 
 
 
-
 # shows a lists of all suppliers
 class SupplierListView(ListView):
     model = Supplier

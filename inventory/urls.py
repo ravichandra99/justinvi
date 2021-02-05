@@ -9,4 +9,5 @@ urlpatterns = [
     path('stock/<pk>/delete', views.StockDeleteView.as_view(), name='delete-stock'),
     path('ajax/costprice',views.get_costprice, name ='get_costprice'),
     path('ajax/sellingprice',views.get_sellingprice, name ='get_sellingprice'),
+    path('ajax/stock',views.get_stock, name ='get_stock'),
 ]

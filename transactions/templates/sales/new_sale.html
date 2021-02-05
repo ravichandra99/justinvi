@@ -66,15 +66,21 @@
                 </div>
             </div>
             {% for form in formset %}
+
             <div class="row form-row">
                 <div class="form-group col-md-3">
                     {{ form.barcode.errors }}
                     <!-- <label class="panel-body-text">Barcode:</label> -->
                     {{ form.barcode }}
                 </div>
-                <div class="col-md-3">
-                    <span class="justname"></span>
+                <div class="form-group col-md-3">
+                    {{ form.stock.errors }}
+                    <!-- <label class="panel-body-text">Barcode:</label> -->
+                    {{ form.stock }}
                 </div>
+                <!-- <div class="col-md-3">
+                    <span class="justname"></span>
+                </div> -->
                 <div class="form-group col-md-2">
                     <!-- <label class="panel-body-text">Price per item:</label> -->
                     {{ form.perprice }}
@@ -96,9 +102,10 @@
             </div>
             <script>
                 var forLoopId = $('.price').attr("id").split('-')[1];
-                $('.justname').attr('id', `justname${forLoopId}`);
+                $('.stock').attr('id', `justname${forLoopId}`);
                 // $('.totalprice').attr('id', `totalprice${nonDjangoForLoopId}`);
             </script>
+
             {% endfor %}
             <div style="text-align: right;">
                 <button class="btn ghost-button add-form-row">+ Add More</button>
@@ -202,10 +209,10 @@
             success: function (data) {
                 var id_getprice = $('.price:last').attr("id");
                 var id_quantity = $('.quantity:last').attr("id");
-                var id_name = $('.justname:last').attr("id");
+                var id_name = $('.stock:last').attr("id");
                 document.getElementById(id_getprice).value = data.selling_price;
                 document.getElementById(id_quantity).value = 1;
-                document.getElementById(id_name).innerHTML = data.name;  
+                document.getElementById(id_name).value = data.name;  
                 console.log(id_name);                                     //    = data.name; 
                 cloneMore('.form-row:last', 'form');
             }
@@ -263,8 +270,8 @@
                 var id_quantity = $('.quantity:last').attr("id");
                 document.getElementById(`${id_getprice}`).value = data.selling_price;
                 document.getElementById(`${id_quantity}`).value = 1;
-                var id_name = $('.justname:last').attr("id");
-                document.getElementById(`${id_name}`).innerHTML = data.name;
+                var id_name = $('.stock:last').attr("id");
+                document.getElementById(`${id_name}`).value = data.name;
                 var quantity = element.parents('.form-row').find('.quantity').val();
                 var perprice = element.parents('.form-row').find('.price').val();
                 //calculates the total
@@ -278,6 +285,40 @@
         return false;
     });
 
+    $(document).on('input', '.stock', function (e) {
+        e.preventDefault();
+        //gets the values
+        var element = $(this);
+        var stock = element.parents('.form-row').find('.stock').val();
+        $.ajax({
+            url: "{% url 'get_stock' %}",
+            data: { 'stock': stock },
+            success: function (data) {
+
+                // var id_getprice = $('.price:last').attr("id");
+                // var id_quantity = $('.quantity:last').attr("id");
+                // document.getElementById(`${id_getprice}`).value = data.selling_price;
+                // document.getElementById(`${id_quantity}`).value = 1;
+                var id_name = $('.stock:last').attr("id");
+                console.log(id_name)
+                alert(data)
+                $("#"+id_name).html(data);
+                // document.getElementById(`${id_name}`).value = data.name;
+                // var quantity = element.parents('.form-row').find('.quantity').val();
+                // var perprice = element.parents('.form-row').find('.price').val();
+                // //calculates the total
+                // var tprice = quantity * perprice;
+                // //sets it to field
+                // element.parents('.form-row').find('.totalprice').val(tprice);
+
+                // cloneMore('.form-row:last', 'form');
+            }
+        });
+        return false;
+    });
+
 </script>
+
+
 
 {% endblock content %}
