@@ -317,7 +317,7 @@
                 // Pushing html data to datalist 
                 $(`#${datalistId}`).html(data);
                 $.ajax({
-                    url: "{% url 'get_barcode' %}",
+                    url: "{% url 'get_barcode_cp' %}",
                     data: { 'stock': stock },
                     success: function (data) {
                         $(`#${barcode}`).val(data.barcode);

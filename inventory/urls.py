@@ -10,5 +10,6 @@ urlpatterns = [
     path('ajax/costprice',views.get_costprice, name ='get_costprice'),
     path('ajax/sellingprice',views.get_sellingprice, name ='get_sellingprice'),
     path('ajax/stock',views.get_stock, name ='get_stock'),
-    path('ajax/barcode',views.get_barcode, name ='get_barcode'),
+    path('ajax/barcodecp',views.get_barcode_cp, name ='get_barcode_cp'),
+    path('ajax/barcodesp',views.get_barcode_sp, name ='get_barcode_sp'),
 ]
