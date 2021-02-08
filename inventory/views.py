@@ -91,8 +91,10 @@ def get_barcode(request):
     if Stock.objects.filter(name = stock).exists():
         juststock = Stock.objects.get(name = stock)
         barcode = juststock.barcode
+        price = juststock.selling_price
     else:
         barcode = 'NOT YET'
-    data = {'barcode':barcode}
+        price = 0
+    data = {'barcode':barcode , 'price' : price}
     return JsonResponse(data)
 
