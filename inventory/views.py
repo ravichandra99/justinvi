@@ -86,3 +86,13 @@ def get_stock(request):
     print(stocks)
     return render(request, 'sales/stock_list.html', {'stocks': stocks})
 
+def get_barcode(request):
+    stock = request.GET.get('stock')
+    if Stock.objects.filter(name = stock).exists():
+        juststock = Stock.objects.get(name = stock)
+        barcode = juststock.barcode
+    else:
+        barcode = 'NOT YET'
+    data = {'barcode':barcode}
+    return JsonResponse(data)
+

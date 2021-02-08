@@ -11,7 +11,7 @@ from .models import (
     Dealer
 )
 from inventory.models import Stock
-from dal import autocomplete
+# from dal import autocomplete
 
 
 # form used to select a supplier
