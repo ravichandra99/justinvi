@@ -292,35 +292,35 @@
         return false;
     });
 
-    $(document).on('click', '.barcode', function (e) {
-        e.preventDefault();
-        //gets the values
-        var element = $(this);
-        var barcode = element.parents('.form-row').find('.barcode').val();
-        $.ajax({
-            url: "{% url 'get_sellingprice' %}",
-            data: { 'barcode': barcode },
-            success: function (data) {
-                var id_getprice = $('.price:last').attr("id");
-                var id_quantity = $('.quantity:last').attr("id");
-                document.getElementById(`${id_getprice}`).value = data.selling_price;
-                document.getElementById(`${id_quantity}`).value = 1;
-                var id_name = $('.stock:last').attr("id");
-                document.getElementById(`${id_name}`).value = data.name;
-                var quantity = element.parents('.form-row').find('.quantity').val();
-                var perprice = element.parents('.form-row').find('.price').val();
-                //calculates the total
-                var tprice = quantity * perprice;
-                //sets it to field
-                element.parents('.form-row').find('.totalprice').val(tprice);
+    // $(document).on('click', '.barcode', function (e) {
+    //     e.preventDefault();
+    //     //gets the values
+    //     var element = $(this);
+    //     var barcode = element.parents('.form-row').find('.barcode').val();
+    //     $.ajax({
+    //         url: "{% url 'get_sellingprice' %}",
+    //         data: { 'barcode': barcode },
+    //         success: function (data) {
+    //             var id_getprice = $('.price:last').attr("id");
+    //             var id_quantity = $('.quantity:last').attr("id");
+    //             document.getElementById(`${id_getprice}`).value = data.selling_price;
+    //             document.getElementById(`${id_quantity}`).value = 1;
+    //             var id_name = $('.stock:last').attr("id");
+    //             document.getElementById(`${id_name}`).value = data.name;
+    //             var quantity = element.parents('.form-row').find('.quantity').val();
+    //             var perprice = element.parents('.form-row').find('.price').val();
+    //             //calculates the total
+    //             var tprice = quantity * perprice;
+    //             //sets it to field
+    //             element.parents('.form-row').find('.totalprice').val(tprice);
 
-                // cloneMore('.form-row:last', 'form');
-            }
-        });
-        return false;
-    });
+    //             // cloneMore('.form-row:last', 'form');
+    //         }
+    //     });
+    //     return false;
+    // });
 
-    $(document).on('click', '.stock', function (e) {
+    $(document).on('input', '.stock', function (e) {
         e.preventDefault();
         //gets the values
         var element = $(this);
@@ -356,11 +356,11 @@
         return false;
     });
 
-    $('.stock').change(function(){
-        console.log('clicked on datalist');
-        // $(".barcode:last").trigger("keypress").val(function (i, val) { return val.slice(0, val.length - 1) + val.slice(val.length - 1)});
-        // $('.barcode:last').trigger('click');
-    })
+    // $('.stock').change(function(){
+    //     console.log('clicked on datalist');
+    //     // $(".barcode:last").trigger("keypress").val(function (i, val) { return val.slice(0, val.length - 1) + val.slice(val.length - 1)});
+    //     // $('.barcode:last').trigger('click');
+    // })
 
 </script>
 
