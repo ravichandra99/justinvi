@@ -6,7 +6,7 @@ from django.views.generic import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from .models import Stock
+from .models import Stock,SuperMarket
 from .forms import StockForm
 from django_filters.views import FilterView
 from .filters import StockFilter
@@ -15,9 +15,15 @@ from django.http import JsonResponse
 
 class StockListView(FilterView):
     filterset_class = StockFilter
-    queryset = Stock.objects.filter(is_deleted=False)
+    # queryset = Stock.objects.filter(is_deleted=False)
     template_name = 'inventory.html'
     paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Stock.objects.filter(is_deleted = False)
+        else:
+            return Stock.objects.filter(is_deleted = False).filter(super_market__user = self.request.user)
 
 
 class StockCreateView(SuccessMessageMixin, CreateView):                                 # createview class to add new stock, mixin used to display message
@@ -31,6 +37,7 @@ class StockCreateView(SuccessMessageMixin, CreateView):                         
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Stock'
         context["savebtn"] = 'Add to Inventory'
+        context['form'].fields['super_market'].queryset = SuperMarket.objects.filter(user = self.request.user)
         return context       
 
 
