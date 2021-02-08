@@ -26,10 +26,12 @@ class SelectSupplierForm(forms.ModelForm):
 
 # form used to render a single stock item form
 class PurchaseItemForm(forms.ModelForm):
+    stock = forms.CharField(widget = forms.TextInput)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
-        # self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
+        self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
+        self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
         self.fields['barcode'].widget.attrs.update({'class': 'textinput form-control setprice barcode'})

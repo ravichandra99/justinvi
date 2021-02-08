@@ -46,10 +46,10 @@
     <div id="stockitem">
         <div class="panel-body">
             <div class="row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label class="panel-body-text">Barcode:</label>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <label class="panel-body-text">Name:</label>
                 </div>
                 <div class="form-group col-md-2">
@@ -68,12 +68,12 @@
             {% for form in formset %}
 
             <div class="row form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     {{ form.barcode.errors }}
                     <!-- <label class="panel-body-text">Barcode:</label> -->
                     {{ form.barcode }}
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     {{ form.stock.errors }}
                     <!-- <label class="panel-body-text">Barcode:</label> -->
                     {{ form.stock }}
@@ -264,6 +264,7 @@
         return false;
     });
 
+    // On barcode input using scanner or manually typing 
     $(document).on('input', '.barcode', function (e) {
         e.preventDefault();
         //gets the values
@@ -292,34 +293,37 @@
         return false;
     });
 
-    // $(document).on('click', '.barcode', function (e) {
-    //     e.preventDefault();
-    //     //gets the values
-    //     var element = $(this);
-    //     var barcode = element.parents('.form-row').find('.barcode').val();
-    //     $.ajax({
-    //         url: "{% url 'get_sellingprice' %}",
-    //         data: { 'barcode': barcode },
-    //         success: function (data) {
-    //             var id_getprice = $('.price:last').attr("id");
-    //             var id_quantity = $('.quantity:last').attr("id");
-    //             document.getElementById(`${id_getprice}`).value = data.selling_price;
-    //             document.getElementById(`${id_quantity}`).value = 1;
-    //             var id_name = $('.stock:last').attr("id");
-    //             document.getElementById(`${id_name}`).value = data.name;
-    //             var quantity = element.parents('.form-row').find('.quantity').val();
-    //             var perprice = element.parents('.form-row').find('.price').val();
-    //             //calculates the total
-    //             var tprice = quantity * perprice;
-    //             //sets it to field
-    //             element.parents('.form-row').find('.totalprice').val(tprice);
 
-    //             // cloneMore('.form-row:last', 'form');
-    //         }
-    //     });
-    //     return false;
-    // });
+    // On clicking barcode input field 
+    $(document).on('click', '.barcode', function (e) {
+        e.preventDefault();
+        //gets the values
+        var element = $(this);
+        var barcode = element.parents('.form-row').find('.barcode').val();
+        $.ajax({
+            url: "{% url 'get_sellingprice' %}",
+            data: { 'barcode': barcode },
+            success: function (data) {
+                var id_getprice = $('.price:last').attr("id");
+                var id_quantity = $('.quantity:last').attr("id");
+                document.getElementById(`${id_getprice}`).value = data.selling_price;
+                document.getElementById(`${id_quantity}`).value = 1;
+                var id_name = $('.stock:last').attr("id");
+                document.getElementById(`${id_name}`).value = data.name;
+                var quantity = element.parents('.form-row').find('.quantity').val();
+                var perprice = element.parents('.form-row').find('.price').val();
+                //calculates the total
+                var tprice = quantity * perprice;
+                //sets it to field
+                element.parents('.form-row').find('.totalprice').val(tprice);
 
+                // cloneMore('.form-row:last', 'form');
+            }
+        });
+        return false;
+    });
+
+    // On stock input from dropdown 
     $(document).on('input', '.stock', function (e) {
         e.preventDefault();
         //gets the values
@@ -335,15 +339,25 @@
                 var datalistId = $('.datalist:last').attr("id");
 
                 var barcode = $('.barcode:last').attr('id');
-                
+
+                var priceperitem = $('.price:last').attr('id');
+
                 // Pushing html data to datalist 
                 $(`#${datalistId}`).html(data);
                 $.ajax({
-                    url: "{% url 'get_barcode' %}",
+                    url: "{% url 'get_barcode_sp' %}",
                     data: { 'stock': stock },
                     success: function (data) {
                         $(`#${barcode}`).val(data.barcode);
-                        
+                        $(`#${priceperitem}`).val(data.price);
+                        var id_quantity = $('.quantity:last').attr("id");
+                        document.getElementById(`${id_quantity}`).value = 1;
+                        var quantity = element.parents('.form-row').find('.quantity').val();
+                        var perprice = element.parents('.form-row').find('.price').val();
+                        //calculates the total
+                        var tprice = quantity * perprice;
+                        //sets it to field
+                        element.parents('.form-row').find('.totalprice').val(tprice);
                     }
                 })
 
@@ -356,11 +370,19 @@
         return false;
     });
 
-    // $('.stock').change(function(){
-    //     console.log('clicked on datalist');
-    //     // $(".barcode:last").trigger("keypress").val(function (i, val) { return val.slice(0, val.length - 1) + val.slice(val.length - 1)});
-    //     // $('.barcode:last').trigger('click');
-    // })
+    $(document).on('change', '.quantity', function (e) {
+        e.preventDefault();
+        var element = $(this);
+        var stock = element.parents('.form-row').find('.stock').val();
+        var id_quantity = $('.quantity:last').attr("id");
+        var quantity = element.parents('.form-row').find('.quantity').val();
+        var perprice = element.parents('.form-row').find('.price').val();
+        //calculates the total
+        var tprice = quantity * perprice;
+        //sets it to field
+        element.parents('.form-row').find('.totalprice').val(tprice);
+    })
+
 
 </script>
 

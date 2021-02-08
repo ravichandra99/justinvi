@@ -34,7 +34,8 @@
         
         <thead class="thead-inverse align-middle">
             <tr>
-                <th width="50%">Stock Name</th>
+                <th width="30%">Stock Name</th>
+                <th width="20%">Super Market</th>
                 <th width="20%">Current Stock in Inventory</th>
                 <th width="30%">Options</th>
             </tr>
@@ -48,10 +49,13 @@
                     <td>
                         <h4>{{ stock.name }}</h4>
                     </td>
+                    <td>
+                        {{ stock.super_market }}
+                    </td>
                     <td class="align-middle">{{ stock.quantity }}</td>
                     <td class="align-middle">
-                        <a href="{% url 'edit-stock' stock.pk %}" class="btn ghost-button">Edit Details</a>
-                        <a href="{% url 'delete-stock' stock.pk %}" class="btn ghost-red"> Delete Stock </a>
+                        <a href="{% url 'edit-stock' stock.pk %}" class=""><i class="fa fa-pencil-square fa-2x" aria-hidden="true"></i></a>
+                        <a href="{% url 'delete-stock' stock.pk %}" class=""> <i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>
                     </td>          
                 </tr>
             {% endfor %}                   

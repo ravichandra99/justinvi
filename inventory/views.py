@@ -74,32 +74,56 @@ class StockDeleteView(View):                                                    
 def get_costprice(request):
     barcode = request.GET.get('barcode')
     stock = get_object_or_404(Stock, barcode = barcode)
-    name = stock.name
-    cost_price = stock.cost_price
-    data = {'cost_price':cost_price, 'name':name}
-    return JsonResponse(data)
+    if stock.super_market.user == request.user:
+        name = stock.name
+        cost_price = stock.cost_price
+        data = {'cost_price':cost_price, 'name':name}
+        return JsonResponse(data)
 
 def get_sellingprice(request):
     barcode = request.GET.get('barcode')
     stock = get_object_or_404(Stock, barcode = barcode)
-    name=stock.name
-    selling_price = stock.selling_price
-    data = {'selling_price':selling_price, 'name':name}
-    return JsonResponse(data)
+    if stock.super_market.user == request.user:
+        name=stock.name
+        selling_price = stock.selling_price
+        data = {'selling_price':selling_price, 'name':name}
+        return JsonResponse(data)
 
 def get_stock(request):
     stock = request.GET.get('stock')
-    stocks = Stock.objects.filter(name__startswith = stock)
+    stocks = Stock.objects.filter(name__startswith = stock).filter(super_market__user = request.user)
     print(stocks)
     return render(request, 'sales/stock_list.html', {'stocks': stocks})
 
-def get_barcode(request):
+def get_barcode_cp(request):
     stock = request.GET.get('stock')
-    if Stock.objects.filter(name = stock).exists():
-        juststock = Stock.objects.get(name = stock)
-        barcode = juststock.barcode
+    if Stock.objects.filter(name = stock).filter(user = request.user).exists():
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)[0]
+        if juststock.super_market.user == request.user:
+            barcode = juststock.barcode
+            price = juststock.cost_price
+        else:
+            barcode = 'NOT YET'
+            price = 0
     else:
         barcode = 'NOT YET'
-    data = {'barcode':barcode}
+        price = 0
+    data = {'barcode':barcode , 'price' : price}
+    return JsonResponse(data)
+
+def get_barcode_sp(request):
+    stock = request.GET.get('stock')
+    if Stock.objects.filter(name = stock).filter(super_market__user = request.user).exists():
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)[0]
+        if juststock.super_market.user == request.user:
+            barcode = juststock.barcode
+            price = juststock.selling_price
+        else:
+            barcode = 'NOT YET'
+            price = 0
+    else:
+        barcode = 'NOT YET'
+        price = 0
+    data = {'barcode':barcode , 'price' : price}
     return JsonResponse(data)
 
