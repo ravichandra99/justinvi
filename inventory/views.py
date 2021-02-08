@@ -97,8 +97,8 @@ def get_stock(request):
 
 def get_barcode_cp(request):
     stock = request.GET.get('stock')
-    if Stock.objects.filter(name = stock).exists():
-        juststock = Stock.objects.get(name = stock)
+    if Stock.objects.filter(name = stock).filter(user = request.user).exists():
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)[0]
         if juststock.super_market.user == request.user:
             barcode = juststock.barcode
             price = juststock.cost_price
@@ -113,8 +113,8 @@ def get_barcode_cp(request):
 
 def get_barcode_sp(request):
     stock = request.GET.get('stock')
-    if Stock.objects.filter(name = stock).exists():
-        juststock = Stock.objects.get(name = stock)
+    if Stock.objects.filter(name = stock).filter(super_market__user = request.user).exists():
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)[0]
         if juststock.super_market.user == request.user:
             barcode = juststock.barcode
             price = juststock.selling_price
