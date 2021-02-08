@@ -240,11 +240,12 @@
     });
 
     // On barcode input using scanner or manually typing 
-    $(document).on('input', '.barcode', function (e) {
+    $(document).on('change', '.barcode', function (e) {
         e.preventDefault();
         //gets the values
         var element = $(this);
         var barcode = element.parents('.form-row').find('.barcode').val();
+        $(this).trigger('click');
         $.ajax({
             url: "{% url 'get_costprice' %}",
             data: { 'barcode': barcode },
