@@ -75,21 +75,21 @@ def get_costprice(request):
     barcode = request.GET.get('barcode')
     if Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user).exists():
         stock = Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user)[0]
-    if stock.super_market.user == request.user:
-        name = stock.name
-        cost_price = stock.cost_price
-        data = {'cost_price':cost_price, 'name':name}
-        return JsonResponse(data)
+        if stock.super_market.user == request.user:
+            name = stock.name
+            cost_price = stock.cost_price
+            data = {'cost_price':cost_price, 'name':name}
+            return JsonResponse(data)
 
 def get_sellingprice(request):
     barcode = request.GET.get('barcode')
     if Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user).exists():
         stock = Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user)[0]
-    if stock.super_market.user == request.user:
-        name=stock.name
-        selling_price = stock.selling_price
-        data = {'selling_price':selling_price, 'name':name}
-        return JsonResponse(data)
+        if stock.super_market.user == request.user:
+            name=stock.name
+            selling_price = stock.selling_price
+            data = {'selling_price':selling_price, 'name':name}
+            return JsonResponse(data)
 
 def get_stock(request):
     stock = request.GET.get('stock')
