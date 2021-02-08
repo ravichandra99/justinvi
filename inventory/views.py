@@ -73,7 +73,8 @@ class StockDeleteView(View):                                                    
 
 def get_costprice(request):
     barcode = request.GET.get('barcode')
-    stock = get_object_or_404(Stock, barcode = barcode)
+    if Stock.objects.filter(barcode = barcode).filter(user = request.user).exists():
+        stock = Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user)[0]
     if stock.super_market.user == request.user:
         name = stock.name
         cost_price = stock.cost_price
@@ -82,7 +83,8 @@ def get_costprice(request):
 
 def get_sellingprice(request):
     barcode = request.GET.get('barcode')
-    stock = get_object_or_404(Stock, barcode = barcode)
+    if Stock.objects.filter(barcode = barcode).filter(user = request.user).exists():
+        stock = Stock.objects.filter(barcode = barcode).filter(super_market__user = request.user)[0]
     if stock.super_market.user == request.user:
         name=stock.name
         selling_price = stock.selling_price
