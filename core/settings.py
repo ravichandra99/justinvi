@@ -31,13 +31,13 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'widget_tweaks',                            # uses 'django-widget-tweaks' app
     'crispy_forms',                             # uses 'django-crispy-forms' app
     'login_required',                           # uses 'django-login-required-middleware' app
@@ -170,5 +170,66 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [                    # urls ignored by the lo
     'about',
 ]
 
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "AMR Distributors",
+
+    # Title on the brand, and login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "AMR Distributors",
+
+    # square logo to use for your site, must be present in static files, used for favicon and brand on top left
+    "site_logo": "/img/download.jpeg",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to the AMR Distributors IT Hub",
+
+    # Copyright on the footer
+    "copyright": "Codegnan IT Solutions",
+
+    # The model admin to search from the search bar, search bar omitted if excluded
+    "search_model": "auth.User",
+
+    # Field name on user model that contains avatar image
+    "user_avatar": None,
+
+    ############
+    # Top Menu #
+    ############
+
+
+
+    #############
+    # User Menu #
+    #############
+
+
+
+    #############
+    # Side Menu #
+    #############
+
+    # Whether to display the side menu
+    "show_sidebar": True,
+
+    # Whether to aut expand the menu
+    "navigation_expanded": True,
+
+    # Hide these apps when generating side menu e.g (auth)
+    "hide_apps": [],
+
+    # Hide these models when generating side menu (e.g auth.user)
+    "hide_models": [],
+
+
+    
+    # - carousel
+    "changeform_format": "horizontal_tabs",
+    # override change forms on a per modeladmin basis
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    # Add a language dropdown into the admin
+    "language_chooser": True,
+}
+
 #db_from_env = dj_database_url.config(conn_max_age=500)
 #DATABASES['default'].update(db_from_env)
+

@@ -18,3 +18,6 @@ admin.site.register(PurchaseBillDetails)
 admin.site.register(SaleBill)
 admin.site.register(SaleItem)
 admin.site.register(SaleBillDetails)
+
+admin.site.site_header = "AMR Distributors"
+admin.site.site_title = "AMR Distributors"
