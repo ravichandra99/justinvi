@@ -22,5 +22,8 @@ class Stock(models.Model):
     barcode = models.CharField(max_length = 50)
     is_deleted = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ('barcode','super_market')
+
     def __str__(self):
 	    return self.name
