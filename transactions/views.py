@@ -167,7 +167,8 @@ class PurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj                                      # links the bill object to the items
                 # gets the stock item
-                stock = get_object_or_404(Stock, barcode=billitem.barcode)       # gets the item
+                if Stock.objects.filter(barcode=billitem.barcode).filter(super_market__user = request.user).exists():
+                    stock = Stock.objects.filter(barcode=billitem.barcode).filter(super_market__user = request.user)[0]       # gets the item
                 billitem.stock = stock
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
@@ -549,7 +550,8 @@ class SalesCreateView(View):
                 billitem.billno = billobj
                 print(billitem.barcode)                                  # links the bill object to the items
                 # gets the stock item
-                stock = get_object_or_404(Stock, barcode=billitem.barcode)
+                if Stock.objects.filter(barcode=billitem.barcode).filter(super_market__user = request.user).exists():
+                    stock = Stock.objects.filter(barcode=billitem.barcode).filter(super_market__user = request.user)[0]
                 print(stock)      # gets the item
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
