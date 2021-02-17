@@ -323,12 +323,15 @@
         return false;
     });
 
+
     // On stock input from dropdown 
     $(document).on('input', '.stock', function (e) {
         e.preventDefault();
         //gets the values
         var element = $(this);
         var stock = element.parents('.form-row').find('.stock').val();
+        // var stockSupplier = element.parents('.form-row').find('.stock').attr('data-stock');
+        // console.log(stock, stockSupplier);
         $.ajax({
             url: "{% url 'get_stock' %}",
             data: { 'stock': stock },
@@ -344,12 +347,14 @@
 
                 // Pushing html data to datalist 
                 $(`#${datalistId}`).html(data);
+                
                 $.ajax({
                     url: "{% url 'get_barcode_sp' %}",
                     data: { 'stock': stock },
                     success: function (data) {
-                        $(`#${barcode}`).val(data.barcode);
-                        $(`#${priceperitem}`).val(data.price);
+                        console.log(data.barcodes, data.supplier_names, data.prices)
+                        $(`#${barcode}`).val(data.barcodes[0]);
+                        $(`#${priceperitem}`).val(data.prices[0]);
                         var id_quantity = $('.quantity:last').attr("id");
                         document.getElementById(`${id_quantity}`).value = 1;
                         var quantity = element.parents('.form-row').find('.quantity').val();
@@ -381,6 +386,10 @@
         var tprice = quantity * perprice;
         //sets it to field
         element.parents('.form-row').find('.totalprice').val(tprice);
+    })
+
+    $(document).on('click', '.datalist', function(){
+        $('.barcode:last').trigger('dblclick');
     })
 
 
