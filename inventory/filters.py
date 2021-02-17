@@ -5,4 +5,4 @@ class StockFilter(django_filters.FilterSet):                            # Stockf
     name = django_filters.CharFilter(lookup_expr='icontains')           # allows filtering without entering the full name
     class Meta:
         model = Stock
-        fields = ['name']
+        fields = ['name','super_market']

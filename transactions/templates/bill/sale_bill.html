@@ -28,14 +28,14 @@
                         <tr style="text-align: center;">
                             <td >
                                
-                                <span style="font-size: 150%;font-weight: 800;">AMR Distributors</span> <br>
-                                <p style="font-weight: 700;">GSTIN NO - 37ABOFA3614R1ZU</p>
+                                <span style="font-size: 150%;font-weight: 800;">{{supermarket}}</span> <br>
+                                <p style="font-weight: 700;">GSTIN NO - {{supermarket.gstno}}</p>
 
                                 ---------------------------------------------<br>
                                 <!-- <span style="font-size: 120%; font-weight: bold; text-decoration: underline;">DEALER DETAILS:</span> <br> -->
                                 <span style="text-decoration: underline; font-weight: bold;"></span> 
-                                <span>Plot No. 502, Sloka Residency,<br> Teachers Colony, Vijayawada.</span><br>
-                                <span style="">EMAIL : amr2019.amul@gmail.com</span> <br>
+                                <span>{{supermarket.address}}</span><br>
+                                <span style="">EMAIL : {{request.user.email}}</span> <br>
                                 ------------------------------------------------<br>
                                 <p style="text-align: center;style="font-weight: 700;"">TAX INVOICE - SALE</p> 
                                 

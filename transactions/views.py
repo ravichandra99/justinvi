@@ -30,7 +30,7 @@ from .forms import (
     SelectDealerForm,
     DealerForm
 )
-from inventory.models import Stock
+from inventory.models import Stock,SuperMarket
 
 
 
@@ -356,6 +356,8 @@ class SaleBillView(View):
         total = round(sum(total_amount),2)
         billdetails.total = total
         billdetails.save()
+        supermarket = SuperMarket.objects.get(user = request.user)
+
         context = {
             'bill'          : bill,
             'items'         : list(zip(items,sgst_amount,cgst_amount,total_amount)),
@@ -364,6 +366,7 @@ class SaleBillView(View):
             'total'         : total,
             'total_sgst' : sum(sgst_amount),
             'total_cgst' : sum(cgst_amount),
+            'supermarket' : supermarket
             # 'undupesgst' : list(set([i.stock.sgst for i in items])),
             # 'undupecgst' : list(set([i.stock.cgst for i in items])),
         }
@@ -387,12 +390,15 @@ class SaleBillView(View):
             billdetailsobj.total = request.POST.get("total")
 
             billdetailsobj.save()
+            supermarket = SuperMarket.objects.get(user = request.user)
+            print(supermarket.name,supermarket.gstno)
             messages.success(request, "Bill details have been modified successfully")
         context = {
             'bill'          : SaleBill.objects.get(billno=billno),
             'items'         : SaleItem.objects.filter(billno=billno),
             'billdetails'   : SaleBillDetails.objects.get(billno=billno),
             'bill_base'     : self.bill_base,
+            'supermarket'   : supermarket
         }
         return render(request, self.template_name, context)
 

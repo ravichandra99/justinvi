@@ -152,3 +152,5 @@ class SaleBillDetails(models.Model):
 
     def __str__(self):
 	    return "Bill no: " + str(self.billno.billno)
+
+    
