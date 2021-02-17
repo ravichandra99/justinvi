@@ -73,7 +73,7 @@
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'dealer-select' %}">New Outgoing Stock</a> </li>
                     </ul>
                 </li>
-                {% if request.user.is_superuser %}
+
                 <li>
                     <a href="#supplierSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button">Suppliers</a>
                     <ul class="collapse list-unstyled" id="supplierSubmenu">
@@ -88,7 +88,7 @@
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'new-dealer' %}">Add New Dealer</a> </li>
                     </ul>
                 </li>
-                {% endif %}
+
 
 
                 <li class="bottomleft">

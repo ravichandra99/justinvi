@@ -30,6 +30,16 @@
             </div>
         </form>
 
+        {% if request.user.is_superuser %}
+        <form method="get">
+            <div class="input-group search">
+                {% render_field filter.form.super_market class="form-control textinput" placeholder="Search by Super Market" %}
+                <div class="input-group-append">
+                   <button type="submit" class="btn btn-pink"> Search </button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
         <br>
         
         <thead class="thead-inverse align-middle">

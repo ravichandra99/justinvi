@@ -116,16 +116,19 @@ def get_barcode_cp(request):
 def get_barcode_sp(request):
     stock = request.GET.get('stock')
     if Stock.objects.filter(name = stock).filter(super_market__user = request.user).exists():
-        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)[0]
-        if juststock.super_market.user == request.user:
-            barcode = juststock.barcode
-            price = juststock.selling_price
-        else:
-            barcode = 'NOT YET'
-            price = 0
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)
+        barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
+        prices = [i.price for i in juststock if i.super_market.user == request.user]
+        supplier_names = [i.supplier_name for i in juststock if i.super_market.user == request.user]
+        # if juststock.super_market.user == request.user:
+        #     barcode = juststock.barcode
+        #     price = juststock.selling_price
+        # else:
+        #     barcode = 'NOT YET'
+        #     price = 0
     else:
         barcode = 'NOT YET'
         price = 0
-    data = {'barcode':barcode , 'price' : price}
+    data = {'barcodes':barcodes , 'prices' : prices, 'supplier_names' : supplier_names}
     return JsonResponse(data)
 
