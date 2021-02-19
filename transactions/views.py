@@ -298,7 +298,7 @@ class PurchaseBillView(View):
         billdetails = PurchaseBillDetails.objects.get(billno=billno)
         sgst_amount = [i.totalprice * i.stock.sgst/100 for i in items]
         cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
-        total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
+        total_amount = [round(i.totalprice ,2) for i in items]
         amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
         total = round(sum(total_amount),2)
         billdetails.total = total
@@ -351,7 +351,7 @@ class SaleBillView(View):
         billdetails = SaleBillDetails.objects.get(billno=billno)
         sgst_amount = [i.totalprice * i.stock.sgst/100 for i in items]
         cgst_amount = [i.totalprice * i.stock.cgst/100 for i in items]
-        total_amount = [round(i.totalprice + (i.totalprice * i.stock.sgst/100) + (i.totalprice * i.stock.cgst/100),2) for i in items]
+        total_amount = [round(i.totalprice ,2) for i in items]
         amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
         total = round(sum(total_amount),2)
         billdetails.total = total
