@@ -114,22 +114,32 @@ def get_barcode_cp(request):
     return JsonResponse(data)
 
 def get_barcode_sp(request):
+    print('im barcode')
     stock = request.GET.get('stock')
-    if Stock.objects.filter(name = stock).filter(super_market__user = request.user).exists():
-        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user)
-        barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
-        prices = [i.selling_price for i in juststock if i.super_market.user == request.user]
-        supplier_names = [i.supplier_name for i in juststock if i.super_market.user == request.user]
-        # if juststock.super_market.user == request.user:
-        #     barcode = juststock.barcode
-        #     price = juststock.selling_price
-        # else:
-        #     barcode = 'NOT YET'
-        #     price = 0
+    print(stock)
+    actualstock = stock.split('@')[0]
+    supplier_name = request.GET.get('supplier_name')
+    print(Stock.objects.filter(name = actualstock).exists())
+    if Stock.objects.filter(name = actualstock).filter(super_market__user = request.user.id).exists():
+        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user.id).filter(supplier_name = supplier_name)[0]
+        print(juststock)
+        # barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
+        # prices = [i.selling_price for i in juststock if i.super_market.user == request.user]
+        # supplier_names = [i.supplier_name for i in juststock if i.super_market.user == request.user]
+        # stocks = [i.name for i in juststock if i.super_market.user == request.user]
+        if juststock.super_market.user == request.user:
+            barcode = juststock.barcode
+            price = juststock.selling_price
+        else:
+            barcode = 'NOT YET'
+            price = 0
+            supplier_name = 'NONE'
+            stock = 'NONE'
     else:
-        barcodes = 'NOT YET'
-        prices = 0
-        supplier_names = 'NONE'
-    data = {'barcodes' : barcodes , 'prices' : prices, 'supplier_names' : supplier_names}
+        barcode = 'NOT YET'
+        price = 0
+        supplier_name = 'NONE'
+        stock = 'NONE'
+    data = {'barcode' : barcode , 'price' : price, 'supplier_name' : supplier_name, 'stock' : stock}
     return JsonResponse(data)
 

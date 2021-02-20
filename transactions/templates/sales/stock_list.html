@@ -1,8 +1,7 @@
-
 <option value="">---------</option>
 {% for stock in stocks %}
-<option value="{{ stock.name }}" class="datalist-option" data-stock = "{{ stock.supplier_name }}">{{ stock.name }} <br> {{ stock.supplier_name }}</option>
+<option value="{{ stock.name }}@{{ stock.supplier_name }}" class="datalist-option" data-stock="{{ stock.supplier_name }}"
+    data-stock-sp="{{ stock.selling_price }}">{{ stock.name }} <br> {{ stock.supplier_name }} <br> {{ stock.barcode }}</option>
 
 {% endfor %}
-
 
