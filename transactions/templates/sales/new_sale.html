@@ -330,11 +330,14 @@
         //gets the values
         var element = $(this);
         var stock = element.parents('.form-row').find('.stock').val();
-        // var stockSupplier = element.parents('.form-row').find('.stock').attr('data-stock');
-        // console.log(stock, stockSupplier);
+        var actualStock = stock.split('@')[0];
+        element.parents('.form-row').find('.stock').val(actualStock); 
+        var actualSupplier = stock.split('@')[1];
+        var data = { 'stock': actualStock, 'supplier_name' : actualSupplier};
+        console.log(data);
         $.ajax({
             url: "{% url 'get_stock' %}",
-            data: { 'stock': stock },
+            data: data,
             success: function (data) {
 
                 var id_name = $('.stock:last').attr("id");
@@ -350,11 +353,10 @@
                 
                 $.ajax({
                     url: "{% url 'get_barcode_sp' %}",
-                    data: { 'stock': stock },
-                    success: function (data) {
-                        console.log(data.barcodes, data.supplier_names, data.prices)
-                        $(`#${barcode}`).val(data.barcodes[0]);
-                        $(`#${priceperitem}`).val(data.prices[0]);
+                    data: { 'stock': stock, 'supplier_name' : actualSupplier },
+                    success: function (data) {                        
+                        console.log(data.barcode, data.supplier_name, data.price, data.stock);
+                        $(`#${barcode}`).val(data.barcode);                       
                         var id_quantity = $('.quantity:last').attr("id");
                         document.getElementById(`${id_quantity}`).value = 1;
                         var quantity = element.parents('.form-row').find('.quantity').val();
