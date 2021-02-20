@@ -121,7 +121,8 @@ def get_barcode_sp(request):
     supplier_name = request.GET.get('supplier_name')
     print(Stock.objects.filter(name = actualstock).exists())
     if Stock.objects.filter(name = actualstock).filter(super_market__user = request.user.id).exists():
-        juststock = Stock.objects.filter(name = stock).filter(super_market__user = request.user.id).filter(supplier_name = supplier_name)[0]
+        juststock = Stock.objects.filter(name = actualstock).filter(super_market__user = request.user.id).\
+        filter(supplier_name = supplier_name)[0]
         print(juststock)
         # barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
         # prices = [i.selling_price for i in juststock if i.super_market.user == request.user]
