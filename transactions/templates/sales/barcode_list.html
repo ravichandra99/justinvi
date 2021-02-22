@@ -1,0 +1,5 @@
+<option value="">---------</option>
+{% for barcode in barcodes %}
+<option value="{{ barcode.barcode }}@{{ barcode.supplier_name }}" class="datalist-option" data-barcode="{{ barcode.supplier_name }}"
+    data-barcode-sp="{{ barcode.selling_price }}">{{ barcode.barcode }} <br> {{ barcode.supplier_name }} <br> {{ barcode.selling_price }}</option>
+{% endfor %}
