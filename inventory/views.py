@@ -97,6 +97,12 @@ def get_stock(request):
     print(stocks)
     return render(request, 'sales/stock_list.html', {'stocks': stocks})
 
+def get_barcode_dropdown(request):
+    barcode = request.GET.get('barcode')
+    barcodes = Stock.objects.filter(barcode__startswith = barcode).filter(super_market__user = request.user)
+    print(barcodes)
+    return render(request, 'sales/barcode_list.html', {'barcodes': barcodes})
+
 def get_barcode_cp(request):
     stock = request.GET.get('stock')
     if Stock.objects.filter(name = stock).filter(super_market__user = request.user).exists():
