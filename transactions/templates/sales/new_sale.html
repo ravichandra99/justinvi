@@ -276,6 +276,7 @@
         //gets the values
         var element = $(this);
         var barcode = element.parents('.form-row').find('.barcode').val();
+        console.log(barcode)
         var actualBarcode = barcode.split('@')[0];
         element.parents('.form-row').find('.barcode').val(actualBarcode); 
         var actualSupplier = barcode.split('@')[1];
@@ -290,7 +291,7 @@
 
                 var datalistId = $('.barcodes-list:last').attr("id");
 
-                var barcode = $('.barcode:last').attr('id');
+                //var barcode = $('.barcode:last').attr('id');
 
                 var priceperitem = $('.price:last').attr('id');
 
@@ -298,11 +299,11 @@
                 $(`#${datalistId}`).html(data);
                 
                 $.ajax({
-                    url: "{% url 'get_barcode_sp' %}",
+                    url: "{% url 'get_stock_sp' %}",
                     data: { 'barcode': barcode, 'supplier_name' : actualSupplier },
                     success: function (data) {                        
                         console.log(data.barcode, data.supplier_name, data.price, data.stock);
-                        $(`#${barcode}`).val(data.barcode); 
+                        $(`#${id_name}`).val(data.stock); 
                         $(`#${priceperitem}`).val(data.price);                      
                         var id_quantity = $('.quantity:last').attr("id");
                         document.getElementById(`${id_quantity}`).value = 1;

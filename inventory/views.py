@@ -150,3 +150,66 @@ def get_barcode_sp(request):
     data = {'barcode' : barcode , 'price' : price, 'supplier_name' : supplier_name, 'stock' : stock}
     return JsonResponse(data)
 
+
+# def get_barcode_sp(request):
+#     print('im barcode')
+#     stock = request.GET.get('stock')
+#     print(stock)
+#     actualstock = stock.split('@')[0]
+#     supplier_name = request.GET.get('supplier_name')
+#     print(Stock.objects.filter(name = actualstock).exists())
+#     if Stock.objects.filter(name = actualstock).filter(super_market__user = request.user.id).exists():
+#         juststock = Stock.objects.filter(name = actualstock).filter(super_market__user = request.user.id).\
+#         filter(supplier_name = supplier_name)[0]
+#         print(juststock)
+#         # barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
+#         # prices = [i.selling_price for i in juststock if i.super_market.user == request.user]
+#         # supplier_names = [i.supplier_name for i in juststock if i.super_market.user == request.user]
+#         # stocks = [i.name for i in juststock if i.super_market.user == request.user]
+#         if juststock.super_market.user == request.user:
+#             barcode = juststock.barcode
+#             price = juststock.selling_price
+#         else:
+#             barcode = 'NOT YET'
+#             price = 0
+#             supplier_name = 'NONE'
+#             stock = 'NONE'
+#     else:
+#         barcode = 'NOT YET'
+#         price = 0
+#         supplier_name = 'NONE'
+#         stock = 'NONE'
+#     data = {'barcode' : barcode , 'price' : price, 'supplier_name' : supplier_name, 'stock' : stock}
+#     return JsonResponse(data)
+
+def get_stock_sp(request):
+    print(request)
+    barcode = request.GET.get('barcode')
+    print(barcode)
+    actualbarcode = barcode.split('@')[0]
+    supplier_name = request.GET.get('supplier_name')
+    print(Stock.objects.filter(barcode = actualbarcode).exists())
+    if Stock.objects.filter(barcode = actualbarcode).filter(super_market__user = request.user.id).exists():
+        juststock = Stock.objects.filter(barcode = actualbarcode).filter(super_market__user = request.user.id).\
+        filter(supplier_name = supplier_name)[0]
+        print(juststock)
+        # barcodes = [i.barcode for i in juststock if i.super_market.user == request.user]
+        # prices = [i.selling_price for i in juststock if i.super_market.user == request.user]
+        # supplier_names = [i.supplier_name for i in juststock if i.super_market.user == request.user]
+        # stocks = [i.name for i in juststock if i.super_market.user == request.user]
+        if juststock.super_market.user == request.user:
+            stock = juststock.name
+            price = juststock.selling_price
+        else:
+            barcode = 'NOT YET'
+            price = 0
+            supplier_name = 'NONE'
+            stock = 'NONE'
+    else:
+        barcode = 'NOT YET'
+        price = 0
+        supplier_name = 'NONE'
+        stock = 'NONE'
+    data = {'barcode' : barcode , 'price' : price, 'supplier_name' : supplier_name, 'stock' : stock}
+    return JsonResponse(data)
+
