@@ -182,6 +182,7 @@
         $('.stock:last').attr('list', `justdata${forLoopId}`);
         $('.barcode:last').attr('list', `justbarcodelist${forLoopId}`);
         $('.datalist:last').attr('id', `justdata${forLoopId}`);
+        $('.barcodes-list:last').attr('id', `justbarcodelist${forLoopId}`);
         $('.justname:last').html('');
         $('.barcode:last').focus();
         $('.totalprice:last').val('');
@@ -214,23 +215,33 @@
 
     $(document).on('click', '.add-form-row', function (e) {
         e.preventDefault();
-        var id_barcode = $('.barcode:last').attr("id");
-        var barcode = $(`#${id_barcode}`).val();
-        $.ajax({
-            url: "{% url 'get_sellingprice' %}",
-            data: { 'barcode': barcode },
-            success: function (data) {
-                var id_getprice = $('.price:last').attr("id");
-                var id_quantity = $('.quantity:last').attr("id");
-                var id_name = $('.stock:last').attr("id");
-                document.getElementById(id_getprice).value = data.selling_price;
-                document.getElementById(id_quantity).value = 1;
-                document.getElementById(id_name).value = data.name;
-                console.log(id_name);                                     //    = data.name; 
-                cloneMore('.form-row:last', 'form');
-            }
 
-        });
+        // var stock = $('stock:last').val();
+        cloneMore('.form-row:last', 'form');
+
+
+        // $.ajax({
+
+
+        //     url: "{% url 'get_barcode_sp' %}",
+        //             data: { 'stock': stock, 'supplier_name' : actualSupplier },
+        //             success: function (data) {                        
+        //                 console.log(data.barcode, data.supplier_name, data.price, data.stock);
+        //                 $(`#${barcode}`).val(data.barcode); 
+        //                 $(`#${priceperitem}`).val(data.price);                      
+        //                 var id_quantity = $('.quantity:last').attr("id");
+        //                 document.getElementById(`${id_quantity}`).value = 1;
+        //                 var quantity = element.parents('.form-row').find('.quantity').val();
+        //                 var perprice = element.parents('.form-row').find('.price').val();
+        //                 //calculates the total
+        //                 var tprice = quantity * perprice;
+        //                 //sets it to field
+        //                 element.parents('.form-row').find('.totalprice').val(tprice);
+
+        //                 cloneMore('.form-row:last', 'form');
+        //             }
+
+        // });
         return false;
     });
 
@@ -252,9 +263,6 @@
 
     //     return false;
     // });
-
-
-
 
     //updates the total price by multiplying 'price per item' and 'quantity' 
     $(document).on('change', '.setprice', function (e) {
@@ -289,14 +297,14 @@
                 console.log(data);
                 var id_name = $('.stock:last').attr("id");
 
-                var datalistId = $('.barcodes-list:last').attr("id");
+                var barcodelistId = $('.barcodes-list:last').attr("id");
 
-                //var barcode = $('.barcode:last').attr('id');
+                // var barcode = $('.barcode:last').attr('id');
 
                 var priceperitem = $('.price:last').attr('id');
 
                 // Pushing html data to datalist 
-                $(`#${datalistId}`).html(data);
+                $(`#${barcodelistId}`).html(data);
                 
                 $.ajax({
                     url: "{% url 'get_stock_sp' %}",
@@ -319,7 +327,6 @@
         });
         return false;
     });
-
 
     // On clicking barcode input field 
     $(document).on('click', '.barcode', function (e) {
