@@ -52,9 +52,9 @@ class PurchaseItem(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete = models.CASCADE, related_name='purchasebillno')
     stock = models.ForeignKey(Stock, on_delete = models.CASCADE, related_name='purchaseitem')
     barcode = models.CharField(max_length = 50)
-    quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    quantity = models.FloatField(default=1)
+    perprice = models.FloatField(default=1)
+    totalprice = models.FloatField(default=1)
 
     def __str__(self):
 	    return "Bill no: " + str(self.billno.billno) + ", Item = " + self.stock.name
@@ -128,9 +128,9 @@ class SaleItem(models.Model):
     billno = models.ForeignKey(SaleBill, on_delete = models.CASCADE, related_name='salebillno')
     stock = models.ForeignKey(Stock, on_delete = models.CASCADE, related_name='saleitem')
     barcode = models.CharField(max_length = 50)
-    quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    quantity = models.FloatField(default=1)
+    perprice = models.FloatField(default=1)
+    totalprice = models.FloatField(default=1)
 
     def __str__(self):
 	    return "Bill no: " + str(self.billno.billno) + ", Item = " + self.stock.name
