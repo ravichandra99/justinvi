@@ -7,7 +7,8 @@ from .models import (
     SaleBill, 
     SaleItem,
     SaleBillDetails,
-    Dealer
+    Dealer,
+    EverydaySale
 )
 
 admin.site.register(Supplier)
@@ -18,6 +19,7 @@ admin.site.register(PurchaseBillDetails)
 admin.site.register(SaleBill)
 admin.site.register(SaleItem)
 admin.site.register(SaleBillDetails)
+admin.site.register(EverydaySale)
 
 admin.site.site_header = "AMR Distributors"
 admin.site.site_title = "AMR Distributors"
