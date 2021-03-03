@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
     <div style="color:#402657; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> 
@@ -29,13 +29,7 @@
                         {{ form.amount.errors }}
                         <label for="{{ form.amount.id_for_label }}">Amount:</label>
                         {{ form.amount }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form.date.errors }}
-                        <label for="{{ form.date.id_for_label }}">Date:</label>
-                        {{ form.date }}
-                    </div>
-                    
+                    </div>                    
                 </div>
         
                 <br>
