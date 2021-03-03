@@ -17,7 +17,8 @@ from .models import (
     SaleBill,  
     SaleItem,
     SaleBillDetails,
-    Dealer
+    Dealer,
+    EverydaySale
 )
 from .forms import (
     SelectSupplierForm, 
@@ -579,3 +580,19 @@ class SalesCreateView(View):
         }
         return render(request, self.template_name, context)
 
+class DaysaleView(CreateView):
+    model = EverydaySale
+    fields = '__all__'
+    template_name = 'sales/day_sale.html'
+    success_url = '/transactions/daysalelist/'
+
+class DaySaleList(ListView):
+    model = EverydaySale
+    template_name = "sales/everyday_list.html"
+    context_object_name = 'everyday_list'
+    ordering = ['-date']
+    paginate_by = 10
+
+    def get_queryset(self):
+        qs = EverydaySale.objects.filter(super_market__user = self.request.user)
+        return qs

@@ -28,5 +28,7 @@ urlpatterns = [
     path('dealers/<pk>/edit', views.DealerUpdateView.as_view(), name='edit-dealer'),
     path('dealers/<pk>/delete', views.DealerDeleteView.as_view(), name='delete-dealer'),
     path('dealers/<name>', views.DealerView.as_view(), name='dealer'),
+    path('daysale/',views.DaysaleView.as_view(), name = 'daysale'),
+    path('daysalelist/',views.DaySaleList.as_view(), name = 'daysalelist'),
     
 ]

@@ -1,5 +1,5 @@
 from django.db import models
-from inventory.models import Stock
+from inventory.models import Stock,SuperMarket
 
 #contains suppliers
 class Supplier(models.Model):
@@ -122,6 +122,7 @@ class SaleBill(models.Model):
             total += item.totalprice
         return total
 
+
 #contains the sale stocks made
 class SaleItem(models.Model):
     billno = models.ForeignKey(SaleBill, on_delete = models.CASCADE, related_name='salebillno')
@@ -152,5 +153,17 @@ class SaleBillDetails(models.Model):
 
     def __str__(self):
 	    return "Bill no: " + str(self.billno.billno)
+
+class EverydaySale(models.Model):
+    super_market = models.ForeignKey(SuperMarket,on_delete = models.PROTECT)
+    supplier_name = models.CharField(max_length = 100)
+    amount = models.FloatField(default = 0.0)
+    date = models.DateField(auto_now_add = True)
+
+    def __str__(self):
+        return self.supplier_name
+
+    def total_amount(self):
+        return sum([i.amount for i in EverydaySale.objects.filter(super_market = self.super_market)])
 
     

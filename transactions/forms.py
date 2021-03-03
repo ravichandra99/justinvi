@@ -8,7 +8,8 @@ from .models import (
     SaleBill, 
     SaleItem,
     SaleBillDetails,
-    Dealer
+    Dealer,
+    EverydaySale
 )
 from inventory.models import Stock
 # from dal import autocomplete
@@ -140,3 +141,8 @@ class SelectDealerForm(forms.ModelForm):
     class Meta:
         model = SaleBill
         fields = ['dealer']
+
+class EverydaySaleForm(forms.ModelForm):
+    class Meta:
+        model = EverydaySale
+        fields = '__all__'
