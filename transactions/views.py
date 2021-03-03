@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.views.generic import (
     View, 
     ListView,
@@ -33,6 +34,7 @@ from .forms import (
 )
 from inventory.models import Stock,SuperMarket
 from django.db.models import Sum
+from django.core.exceptions import ValidationError
 
 # shows a lists of all suppliers
 class SupplierListView(ListView):
@@ -584,6 +586,26 @@ class DaysaleView(CreateView):
     fields = '__all__'
     template_name = 'sales/day_sale.html'
     success_url = '/transactions/daysalelist/'
+
+    def get_form(self,form_class = None):
+        form = super(DaysaleView, self).get_form(form_class)
+        form.fields['super_market'].widget.attrs.update({'class': 'textinput form-control'})
+        form.fields['supplier_name'].widget.attrs.update({'class': 'textinput form-control'})
+        form.fields['amount'].widget.attrs.update({'class': 'textinput form-control amount', 'min': '0', 'required': 'true'})
+
+
+        return form
+
+    def post(self, request, *args, **kwargs):
+        # super().post() maybe raise a ValidationError if it is failure to save
+        try:
+            response = super().post(request, *args, **kwargs)
+        except:
+            messages.info(request, 'UNIQUE constraint failed.')
+            response = redirect('daysale')
+        # the below code is optional. django has responsed another erorr message
+        return response
+        
 
 class DaySaleList(ListView):
     model = EverydaySale
