@@ -168,9 +168,6 @@ class EverydaySale(models.Model):
     amount = models.FloatField(default = 0.0)
     date = models.DateField()
 
-    class Meta:
-        unique_together = ('date','super_market')
-
     def __str__(self):
         return self.supplier_name
 
