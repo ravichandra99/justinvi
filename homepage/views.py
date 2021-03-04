@@ -9,8 +9,11 @@ class HomeView(View):
     template_name = "home.html"
     def get(self, request):        
         labels = []
-        data = []        
-        stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
+        data = []
+        if not request.user.is_superuser:        
+            stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
+        else:
+            stockqueryset = Stock.objects.filter(super_market__user = request.user).filter(is_deleted=False).order_by('-quantity')
         for item in stockqueryset:
             labels.append(item.name)
             data.append(item.quantity)

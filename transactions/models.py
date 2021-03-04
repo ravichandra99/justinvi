@@ -169,7 +169,7 @@ class EverydaySale(models.Model):
     date = models.DateField()
 
     class Meta:
-        unique_together = ('date','super_market','supplier_name')
+        unique_together = ('date','super_market')
 
     def __str__(self):
         return self.supplier_name
