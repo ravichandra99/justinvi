@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             name='date',
             field=models.DateField(),
         ),
-        migrations.AlterUniqueTogether(
-            name='everydaysale',
-            unique_together={('date', 'super_market')},
-        ),
+        # migrations.AlterUniqueTogether(
+        #     name='everydaysale',
+        #     unique_together={('date', 'super_market')},
+        # ),
     ]
