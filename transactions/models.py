@@ -47,6 +47,10 @@ class PurchaseBill(models.Model):
             total += item.totalprice
         return total
 
+    def get_smpurchase_list(self,user):
+        sb_list =  PurchaseItem.objects.filter(stock__super_market__user = user)
+        return [i.billno for i in sb_list][::-1]
+
 #contains the purchase stocks made
 class PurchaseItem(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete = models.CASCADE, related_name='purchasebillno')
@@ -122,6 +126,10 @@ class SaleBill(models.Model):
             total += item.totalprice
         return total
 
+    def get_smsale_list(self,user):
+        sb_list =  SaleItem.objects.filter(stock__super_market__user = user)
+        return [i.billno for i in sb_list][::-1]
+
 
 #contains the sale stocks made
 class SaleItem(models.Model):
@@ -158,7 +166,7 @@ class EverydaySale(models.Model):
     super_market = models.ForeignKey(SuperMarket,on_delete = models.PROTECT)
     supplier_name = models.CharField(max_length = 100)
     amount = models.FloatField(default = 0.0)
-    date = models.DateField(auto_now_add = True)
+    date = models.DateField()
 
     class Meta:
         unique_together = ('date','super_market','supplier_name')

@@ -14,8 +14,14 @@ class HomeView(View):
         for item in stockqueryset:
             labels.append(item.name)
             data.append(item.quantity)
-        sales = SaleBill.objects.order_by('-time')[:3]
-        purchases = PurchaseBill.objects.order_by('-time')[:3]
+        if not request.user.is_superuser:
+            sales = SaleBill.objects.order_by('-time')[:3]
+            purchases = PurchaseBill.objects.order_by('-time')[:3]
+        else:
+            a = SaleBill()
+            b = PurchaseBill()
+            sales = a.get_smsale_list(self.request.user)[:3]
+            purchases = b.get_smpurchase_list(self.request.user)[:3]
 
         try:
             sList = [i.total for i in SaleBillDetails.objects.all() if i.total is not None and i.total != '']

@@ -35,7 +35,8 @@ from .forms import (
 from inventory.models import Stock,SuperMarket
 from django.db.models import Sum
 from django.core.exceptions import ValidationError
-
+from django.contrib.admin.widgets import AdminDateWidget
+from django import forms
 # shows a lists of all suppliers
 class SupplierListView(ListView):
     model = Supplier
@@ -121,6 +122,15 @@ class PurchaseView(ListView):
     context_object_name = 'bills'
     ordering = ['-time']
     paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            qs =  PurchaseBill.objects.all().order_by('-time')
+        else:
+            a = PurchaseBill()
+            qs = a.get_smpurchase_list(self.request.user)
+            print(qs)
+        return qs
 
 
 # used to select the supplier
@@ -216,6 +226,15 @@ class SaleView(ListView):
     context_object_name = 'bills'
     ordering = ['-time']
     paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            qs =  SaleBill.objects.all().order_by('-time')
+        else:
+            a = SaleBill()
+            qs = a.get_smsale_list(self.request.user)
+            print(qs)
+        return qs
 
 
 # used to generate a bill object and save items
@@ -592,6 +611,7 @@ class DaysaleView(CreateView):
         form.fields['super_market'].widget.attrs.update({'class': 'textinput form-control'})
         form.fields['supplier_name'].widget.attrs.update({'class': 'textinput form-control'})
         form.fields['amount'].widget.attrs.update({'class': 'textinput form-control amount', 'min': '0', 'required': 'true'})
+        form.fields['date'].widget.attrs.update({'class': 'textinput form-control'})
 
 
         return form
