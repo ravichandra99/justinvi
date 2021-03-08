@@ -146,3 +146,7 @@ class EverydaySaleForm(forms.ModelForm):
     class Meta:
         model = EverydaySale
         fields = '__all__'
+
+
+class DiscountForm(forms.Form):
+    discount = forms.FloatField(required = True)

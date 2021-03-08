@@ -30,7 +30,8 @@ from .forms import (
     SaleItemFormset,
     SaleDetailsForm,
     SelectDealerForm,
-    DealerForm
+    DealerForm,
+    DiscountForm
 )
 from inventory.models import Stock,SuperMarket
 from django.db.models import Sum
@@ -279,8 +280,10 @@ class SaleCreateView(View):
             messages.success(request, "Sold items have been registered successfully")
             return redirect('sale-bill', billno=billobj.billno)
         form = SaleForm(request.GET or None)
+        discount_form = DiscountForm(request.GET or None)
         formset = SaleItemFormset(request.GET or None)
         context = {
+            'discount_form' : discount_form,
             'form'      : form,
             'formset'   : formset,
         }
@@ -636,9 +639,9 @@ class DaySaleList(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            qs = EverydaySale.objects.all()
+            qs = EverydaySale.objects.all().order_by('-date')
         else:
-            qs = EverydaySale.objects.filter(super_market__user = self.request.user)
+            qs = EverydaySale.objects.filter(super_market__user = self.request.user).order_by('-date')
         return qs
 
     def get_context_data(self, **kwargs):

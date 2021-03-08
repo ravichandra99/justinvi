@@ -48,7 +48,7 @@ class PurchaseBill(models.Model):
         return total
 
     def get_smpurchase_list(self,user):
-        sb_list =  PurchaseItem.objects.filter(stock__super_market__user = user)
+        sb_list =  PurchaseItem.objects.filter(stock__super_market__user = user).order_by('-billno__time')
         return [i.billno for i in sb_list][::-1]
 
 #contains the purchase stocks made
@@ -127,8 +127,11 @@ class SaleBill(models.Model):
         return total
 
     def get_smsale_list(self,user):
-        sb_list =  SaleItem.objects.filter(stock__super_market__user = user)
-        return [i.billno for i in sb_list][::-1]
+        sb_list =  SaleItem.objects.filter(stock__super_market__user = user).order_by('-billno__time')
+        result = [i.billno for i in sb_list][::-1]
+        result_set = set(result)
+        result_list = list(result_set)
+        return result_list
 
 
 #contains the sale stocks made
