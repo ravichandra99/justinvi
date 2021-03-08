@@ -131,7 +131,7 @@ class SaleBill(models.Model):
         result = [i.billno for i in sb_list][::-1]
         result_set = set(result)
         result_list = list(result_set)
-        return result_list
+        return result_list[::-1]
 
 
 #contains the sale stocks made
