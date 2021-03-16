@@ -587,14 +587,15 @@ class SalesCreateView(View):
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
                 if stock.quantity <= 0:
-                    messages.success(request, "WOW STOCK EMPTY.!")
-                    return render(request,'nostock.html')
+                    #messages.success(request, "WOW STOCK EMPTY.!")
+                    #return render(request,'nostock.html')
+                    sm = "{} has no stock please add in inventory".format(stock.name)
                 stock.quantity -= billitem.quantity  
                 billitem.stock = stock                            # updates quantity
                 # saves bill item and stock
                 stock.save()
                 billitem.save()
-            messages.success(request, "Sold items have been registered successfully")
+            messages.success(request, "Sold items have been registered successfully {}".format(sm))
             return redirect('sale-bill', billno=billobj.billno)
         formset = SaleItemFormset(request.GET or None)
         context = {
