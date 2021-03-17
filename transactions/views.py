@@ -586,6 +586,7 @@ class SalesCreateView(View):
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
+                sm = ''
                 if stock.quantity <= 0:
                     #messages.success(request, "WOW STOCK EMPTY.!")
                     #return render(request,'nostock.html')
