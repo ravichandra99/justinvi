@@ -30,5 +30,6 @@ urlpatterns = [
     path('dealers/<name>', views.DealerView.as_view(), name='dealer'),
     path('daysale/',views.DaysaleView.as_view(), name = 'daysale'),
     path('daysalelist/',views.DaySaleList.as_view(), name = 'daysalelist'),
+    path('datewise/',views.date_wise,name = 'date_wise'),
     
 ]

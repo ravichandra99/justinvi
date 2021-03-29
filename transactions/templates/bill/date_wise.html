@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Date Wise {{ bill.billno }}{% endblock title %}
+
+
+{% block content %}
+    
+{% for i,j in date_price %}
+
+{{i}} - {{j}} <br>
+
+{% endfor %}
+
+{% endblock %}

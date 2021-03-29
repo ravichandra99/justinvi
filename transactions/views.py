@@ -38,6 +38,7 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
+from datetime import date
 # shows a lists of all suppliers
 class SupplierListView(ListView):
     model = Supplier
@@ -166,6 +167,7 @@ class PurchaseCreateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
+
         formset = PurchaseItemFormset(request.POST)                             # recieves a post method for the formset
         supplierobj = get_object_or_404(Supplier, pk=pk)                        # gets the supplier object
         if formset.is_valid():
@@ -239,7 +241,7 @@ class SaleView(ListView):
 
 
 # used to generate a bill object and save items
-class SaleCreateView(View):                                                      
+class SaleCreateView(View):                 
     template_name = 'sales/new_sale.html'
 
     def get(self, request):
@@ -254,6 +256,7 @@ class SaleCreateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request):
+        print(request.POST)                
         form = SaleForm(request.POST)
         formset = SaleItemFormset(request.POST)                                 # recieves a post method for the formset
         if form.is_valid() and formset.is_valid():
@@ -378,7 +381,12 @@ class SaleBillView(View):
         total_amount = [round(i.totalprice ,2) for i in items]
         amt_details = list(zip(sgst_amount,cgst_amount,total_amount))
         total = round(sum(total_amount),2)
-        billdetails.total = total
+        discount = float(billdetails.tcs)
+        billdetails.igst = date.today()
+        total_after_discount = total - (total * discount / 100)
+
+        billdetails.cess = total
+        billdetails.total = total_after_discount
         billdetails.save()
         supermarket = SuperMarket.objects.get(user = request.user)
 
@@ -390,7 +398,8 @@ class SaleBillView(View):
             'total'         : total,
             'total_sgst' : sum(sgst_amount),
             'total_cgst' : sum(cgst_amount),
-            'supermarket' : supermarket
+            'supermarket' : supermarket,
+            'discount' : discount
             # 'undupesgst' : list(set([i.stock.sgst for i in items])),
             # 'undupecgst' : list(set([i.stock.cgst for i in items])),
         }
@@ -565,6 +574,7 @@ class SalesCreateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
+        # print(request.POST.get('discount'))
         formset = SaleItemFormset(request.POST)                             # recieves a post method for the formset
         supplierobj = get_object_or_404(Dealer, pk=pk)                       # gets the supplier object
         if formset.is_valid():
@@ -573,6 +583,7 @@ class SalesCreateView(View):
             billobj.save()                                                      # saves object into the db
             # create bill details object
             billdetailsobj = SaleBillDetails(billno=billobj)
+            billdetailsobj.tcs = request.POST.get('discount')
             billdetailsobj.save()
             for form in formset:                                                # for loop to save each individual form as its own object
                 # false saves the item and links bill to the item
@@ -654,6 +665,11 @@ class DaySaleList(ListView):
         total_amount = qs.aggregate(Sum('amount'))
         context['total'] = total_amount['amount__sum']
         return context
+
+def date_wise(request):
+    date_wise = {i.igst for i in SaleBillDetails.objects.all()}
+    date_price = [(i,sum([round(float(i.total),2) for i in SaleBillDetails.objects.filter(igst = i)])) for i in date_wise]
+    return render(request,'bill/date_wise.html',{'date_price':date_price})
 
 
 
