@@ -671,9 +671,9 @@ def date_wise(request):
     print(date_wise)
     saleitems = SaleItem.objects.filter(stock__super_market__user = request.user).values_list('billno', flat = True)
     if request.user.is_superuser:
-        date_price = [(i,sum([round(float(i.total),2) for i in SaleBillDetails.objects.filter(igst = i)])) for i in date_wise if not None]
+        date_price = [(i,sum([round(float(i.total),2) if i.total is None else (i,0) for i in SaleBillDetails.objects.filter(igst = i)])) for i in date_wise]
     else:
-        date_price = [(i,sum([round(float(i.total),2) for i in SaleBillDetails.objects.filter(igst = i).filter(billno__in = saleitems)])) for i in date_wise if not None]
+        date_price = [(i,sum([round(float(i.total),2) if i.total is None else (i,0) for i in SaleBillDetails.objects.filter(igst = i).filter(billno__in = saleitems)])) for i in date_wise]
     print(date_price)
     return render(request,'bill/date_wise.html',{'date_price':date_price})
 
