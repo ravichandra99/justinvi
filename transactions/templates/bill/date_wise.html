@@ -7,10 +7,31 @@
 
 {% block content %}
     
-{% for i,j in date_price %}
 
-{{i}} - {{j}} <br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Amount</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for i,j in date_price %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i}}</td>
+      <td>{{j}} INR</td>
+
+    </tr>
+
 
 {% endfor %}
+    
+  </tbody>
+</table>
+
 
 {% endblock %}
