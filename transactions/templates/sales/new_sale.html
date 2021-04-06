@@ -125,9 +125,19 @@
     </div>
 
 
-    <br>
-    Discount:
-    <input type="text" name="discount" value=0>%
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Discount %:</h4>
+                <input type="number" name="discount" value=0 class="form-control" id="billDiscount" min=0>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4>Total</h4>
+                <input type="text" name="discount" value=0 class="form-control" id="totalbill" readonly disabled>
+            </div>
+        </div>
+    </div>
 
     <div class="align-middle">
         <button type="submit" class="btn ghost-green" id="addSales">Add to Sales</button>
@@ -143,6 +153,32 @@
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
 <script type="text/javascript">
+
+    // Total generation function starts herer
+    async function generateTotal(){
+        var pricesToAdd = await $('.totalprice');
+        var discountPercentage = parseInt($("input[name = 'discount']").val());
+        console.log('Discount percantage is ' + discountPercentage);
+        console.log(pricesToAdd);
+        var pricesArr = [];
+        for(let i=0; i <= pricesToAdd.length; i++){
+            pricesArr.push($(pricesToAdd[i]).val());
+        }
+        pricesArr.pop();
+        console.log(pricesArr);
+        var total = 0;
+        for(let k of pricesArr){
+            total += parseFloat(k);
+        }
+        if(discountPercentage > 0) {
+            console.log('We have got discount')
+            var totalAfterDiscount = total - (total * discountPercentage / 100);
+            console.log(totalAfterDiscount)
+            await $('#totalbill').val(Number((totalAfterDiscount).toFixed(2)));
+        }else{
+            await $('#totalbill').val(Number((total).toFixed(2)));
+        }
+    }
 
     console.log($('.price:last').attr("id").split('-')[1]);
     //creates custom alert object
@@ -189,6 +225,7 @@
         $('.justname:last').html('');
         $('.barcode:last').focus();
         $('.totalprice:last').val('');
+        generateTotal();
         return false;
     }
 
@@ -213,59 +250,17 @@
     $(document).on('click', '.remove-form-row', function (e) {
         e.preventDefault();
         deleteForm('form', $(this));
+        generateTotal();
         return false;
     });
 
     $(document).on('click', '.add-form-row', function (e) {
         e.preventDefault();
-
         // var stock = $('stock:last').val();
         cloneMore('.form-row:last', 'form');
-
-
-        // $.ajax({
-
-
-        //     url: "{% url 'get_barcode_sp' %}",
-        //             data: { 'stock': stock, 'supplier_name' : actualSupplier },
-        //             success: function (data) {                        
-        //                 console.log(data.barcode, data.supplier_name, data.price, data.stock);
-        //                 $(`#${barcode}`).val(data.barcode); 
-        //                 $(`#${priceperitem}`).val(data.price);                      
-        //                 var id_quantity = $('.quantity:last').attr("id");
-        //                 document.getElementById(`${id_quantity}`).value = 1;
-        //                 var quantity = element.parents('.form-row').find('.quantity').val();
-        //                 var perprice = element.parents('.form-row').find('.price').val();
-        //                 //calculates the total
-        //                 var tprice = quantity * perprice;
-        //                 //sets it to field
-        //                 element.parents('.form-row').find('.totalprice').val(tprice);
-
-        //                 cloneMore('.form-row:last', 'form');
-        //             }
-
-        // });
+        generateTotal();
         return false;
     });
-
-    // $(document).on('click', '.add-form-row', function (e) {
-    //     e.preventDefault();
-    //     var id_barcode = $('.barcode:last').attr("id");
-    //     var barcode = $(`#${id_barcode}`).val();
-    //     $.ajax({
-    //         url: "{% url 'get_costprice' %}",
-    //         data: { 'barcode': barcode },
-    //         success: function (data) {
-    //             var id_getprice = $('.price:last').attr("id");
-    //             var id_quantity = $('.quantity:last').attr("id")
-    //             document.getElementById(id_getprice).value = data.cost_price;
-    //             document.getElementById(id_quantity).value = 1;
-    //             cloneMore('.form-row:last', 'form');
-    //         }
-    //     });
-
-    //     return false;
-    // });
 
     //updates the total price by multiplying 'price per item' and 'quantity' 
     $(document).on('change', '.setprice', function (e) {
@@ -277,7 +272,8 @@
         //calculates the total
         var tprice = quantity * perprice;
         //sets it to field
-        element.parents('.form-row').find('.totalprice').val(tprice);
+        element.parents('.form-row').find('.totalprice').val(Number((tprice).toFixed(2)));
+        generateTotal();
         return false;
     });
 
@@ -303,10 +299,11 @@
                 var tprice = quantity * perprice;
                 //sets it to field
                 element.parents('.form-row').find('.totalprice').val(tprice);
-
+                generateTotal();
                 // cloneMore('.form-row:last', 'form');
             }
         });
+        
         return false;
     });
 
@@ -332,7 +329,7 @@
                 var tprice = quantity * perprice;
                 //sets it to field
                 element.parents('.form-row').find('.totalprice').val(tprice);
-
+                generateTotal();
                 // cloneMore('.form-row:last', 'form');
             }
         });
@@ -382,6 +379,7 @@
                         var tprice = quantity * perprice;
                         //sets it to field
                         element.parents('.form-row').find('.totalprice').val(tprice);
+                        generateTotal();
                     }
                 })
             }
@@ -400,15 +398,17 @@
         var tprice = quantity * perprice;
         //sets it to field
         element.parents('.form-row').find('.totalprice').val(tprice);
+        generateTotal();
     })
 
     $(document).on('click', '.datalist', function(){
         $('.barcode:last').trigger('dblclick');
     })
 
-
+    // Generate total dynamically after entering disocunt 
+    $('#billDiscount').change(function(){
+        generateTotal();
+    })
 </script>
-
-
 
 {% endblock content %}
