@@ -109,7 +109,7 @@
                                     {% endfor %}
 
 
-                                    <tr><td>Total:{{billdetails.cess}}</td><td>{% if discount != 0 %}Discount:{{discount}} %{% endif %}</td><td><p style="width: 200%;font-weight: 700;margin-left: 70px;">Total: {{billdetails.total}}</td></tr>
+                                    <tr><td>{% if discount != 0 %}Total:{{billdetails.cess}}{% endif %}</td><td>{% if discount != 0 %}Discount:{{discount}} %{% endif %}</td><td><p style="width: 200%;font-weight: 700;margin-left: 70px;">Total: {{billdetails.total}}</td></tr>
                                  
                                 </tbody>
                             </table>
