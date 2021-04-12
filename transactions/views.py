@@ -667,7 +667,8 @@ class DaySaleList(ListView):
         return context
 
 def date_wise(request):
-    date_wise = {i.igst for i in SaleBillDetails.objects.all()}
+    date_wise = [i.igst for i in SaleBillDetails.objects.all()]
+    date_wise = list(dict.fromkeys(date_wise))
     print(date_wise)
     for i in SaleBillDetails.objects.all():
         if i.total is None:
